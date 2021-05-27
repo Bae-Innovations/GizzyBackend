@@ -1,7 +1,11 @@
 // imports
 const express = require('express');
 const mongoose = require('mongoose');
+
 const logger = require('./logger/logger');
+const authenticateToken = require('./middleware');
+
+const ACCESS_TOKEN_SECRET = 'access123456789';
 
 // initializations
 const app = express();
@@ -11,6 +15,7 @@ const port = 3070;
 mongoose.connect('mongodb+srv://gizzy:cftXDR456@cluster0.az372.mongodb.net/testdb?retryWrites=true&w=majority',
   { useNewUrlParser: true, useUnifiedTopology: true },
   () => logger.info('connected to DB!'));
+
 
 // middlewares
 app.use(express.json());

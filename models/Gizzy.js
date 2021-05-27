@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const GizzySchema = mongoose.Schema({
   id: {
-    type: Integer,
+    type: Number,
     required: true,
   },
   name: {
@@ -10,11 +10,11 @@ const GizzySchema = mongoose.Schema({
     required: true,
   },
   patronId: {
-    type: Integer,
+    type: Number,
     required: true,
   },
   matronId: {
-    type: Integer,
+    type: Number,
     required: true,
   },
   name: {
