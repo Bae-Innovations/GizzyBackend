@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "test": "mocha --exit",
+    "test": "mocha --exit --timeout 10000",
     "eslint": "eslint ./",
     "eslint-fix": "eslint ./ --fix"
   },
