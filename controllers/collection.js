@@ -2,7 +2,7 @@ const express = require('express');
 const logger = require('../logger/logger');
 const CollectionSchema = require('../models/Collection');
 
-export const getCollection = async (req, res) => {
+const getCollection = async (req, res) => {
     try{
         let collection = await CollectionSchema.find();
         res.json(collection);
@@ -13,7 +13,7 @@ export const getCollection = async (req, res) => {
 }
 
 
-export const postCollection = async (req, res) => {
+const postCollection = async (req, res) => {
     let collection = new CollectionSchema({
         name: req.body.name
     })
@@ -26,10 +26,14 @@ export const postCollection = async (req, res) => {
     }
 }
 
-export const getGizzy = async (req, res) => {
+const postGizzy = async (req, res) => {
     res.send('this is the endpoint to add gizzy to collection');
 }
 
-export const deleteGizzy = async  (req, res) => {
+const deleteGizzy = async  (req, res) => {
     res.send('this is the endpoint to remove gizzy from collection');
+}
+
+module.exports = {
+    getCollection,postCollection,postGizzy, deleteGizzy
 }
