@@ -40,9 +40,9 @@ router.post('/login', async (req, res) => {
   }
 
   // check if the signedNonce was signed using the private key of the publicAddress
-  const msgBuffer = ethUtil.toBuffer(signedNonce);
+  const msgBuffer = ethUtil.toBuffer(user.nonce);
   const msgHash = ethUtil.hashPersonalMessage(msgBuffer);
-  const signatureBuffer = ethUtil.toBuffer(signature);
+  const signatureBuffer = ethUtil.toBuffer(signedNonce);
   const signatureParams = ethUtil.fromRpcSig(signatureBuffer);
   const publicKey = ethUtil.ecrecover(
     msgHash,

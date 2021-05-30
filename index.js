@@ -36,6 +36,6 @@ app.get('*', (req, res) => {
 });
 
 // run the app
-app.listen(port, (err) => {
+module.exports = app.listen(port, (err) => {
   logger.info(`running server from port:::::${port}`);
 });

@@ -9,6 +9,7 @@ router.get('/', async (req, res) => {
         let collection = await CollectionSchema.find();
         res.json(collection);
     }catch(err){
+        logger.error(err);
         res.json({message:err})
     }
 });
@@ -21,6 +22,7 @@ router.post('/', async (req, res) => {
         const savedCollection = await collection.save();
         res.json(savedCollection);
     } catch (err) {
+        logger.error(err);
         res.json({message: err});
     }
 });
