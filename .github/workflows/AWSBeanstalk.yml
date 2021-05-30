@@ -1,0 +1,44 @@
+name: CD
+
+on:
+  push:
+    branches: staging
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Install Dependencies
+      run: npm install
+    - name: Build
+      run: npm run build --if-present
+    - name: Run tests
+      run: npm test
+      - name: Generate deployment package
+        run: zip -r deploy.zip . -x '*.git*'
+      - name: Set UUID
+        id: generate-uuid
+        uses: filipstefansson/uuid-action@v1
+        with:
+          name: ${{ github.sha }}
+      - name: Deploy to EB
+        uses: einaregilsson/beanstalk-deploy@v14
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          application_name: Gizzy_staging
+          environment_name: Gizzystaging-env
+          version_label: ${{ steps.generate-uuid.outputs.uuid }}
+          region: ap-southeast-1
+          deployment_package: deploy.zip
