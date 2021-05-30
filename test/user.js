@@ -38,7 +38,7 @@ describe("POST /user/register & POST /user/login", () => {
 
         body = {
             publicAddress: ADDRESS,
-            signedNonce: sig
+            signedNonce: signedNonce
         }
         chai.request(server)
         .post("/user/login")
