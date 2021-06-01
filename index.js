@@ -10,7 +10,7 @@ const ACCESS_TOKEN_SECRET = 'access123456789';
 
 // initializations
 const app = express();
-const port = 3070;
+var port = process.env.PORT || 8080;
 
 // connecting to database
 mongoose.connect('mongodb+srv://gizzy:cftXDR456@cluster0.az372.mongodb.net/testdb?retryWrites=true&w=majority',
