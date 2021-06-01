@@ -10,6 +10,11 @@ const requiredNumber = {
   required: true
 }
 
+const requiredDouble = {
+  type: Double,
+  required: true
+}
+
 const requiredDate = {
   type: Date,
   required: true
@@ -18,6 +23,7 @@ const requiredDate = {
 const GizzySchema = mongoose.Schema({
   gizzy_id: requiredString,//gizzy id string
   gizzy_name: requiredString,
+  gizzy_price: requiredDouble,
   owned_by: requiredString,//owned by user id
   gizzy_image: requiredString,
   gizzy_status: requiredString,
@@ -26,7 +32,7 @@ const GizzySchema = mongoose.Schema({
   bio: requiredString,
   hatched_by: requiredString,//user id string,
   birthday: requiredDate,
-  lycan_type: requiredString,
+  lycano_type: requiredString,
   attributes: {
       strenth: requiredNumber,
       constitution: requiredNumber,
