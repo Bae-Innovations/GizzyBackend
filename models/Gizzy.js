@@ -11,7 +11,7 @@ const requiredNumber = {
 }
 
 const requiredDouble = {
-  type: Double,
+  type: Number,
   required: true
 }
 
