@@ -1,26 +1,41 @@
 const mongoose = require('mongoose');
 
+const requiredString = {
+  type: String,
+  required: true
+}
+
+const requiredNumber = {
+  type: Number,
+  required: true
+}
+
+const requiredDate = {
+  type: Date,
+  required: true
+}
+
 const GizzySchema = mongoose.Schema({
-  gizzy_id: String,//gizzy id string
-  gizzy_name: String,
-  owned_by: String,//owned by user id
-  gizzy_image: String,
-  gizzy_status: String,
-  genaration: Number,
-  cooldown_time_hours: Number,
-  bio: String,
-  hatched_by: String,//user id string,
-  birthday: Date,
-  lycan_type: String,
+  gizzy_id: requiredString,//gizzy id string
+  gizzy_name: requiredString,
+  owned_by: requiredString,//owned by user id
+  gizzy_image: requiredString,
+  gizzy_status: requiredString,
+  genaration: requiredNumber,
+  cooldown_time_hours: requiredNumber,
+  bio: requiredString,
+  hatched_by: requiredString,//user id string,
+  birthday: requiredDate,
+  lycan_type: requiredString,
   attributes: {
-      strenth: Number,
-      constitution: Number,
-      restoration: Number,
-      charisma: Number,
+      strenth: requiredNumber,
+      constitution: requiredNumber,
+      restoration: requiredNumber,
+      charisma: requiredNumber,
   },
   parents: {
-      father: String,
-      mother: String,
+      father: requiredString,
+      mother: requiredString,
   },
   children_list: [String],
 });
