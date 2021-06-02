@@ -35,17 +35,19 @@ router.post('/login', async (req, res) => {
   logger.debug(signedNonce) 
 
   // get the user document
-  try{
-    const user = await UserSchema.findOne({publicAddress:publicAddress});
-  }catch(err){
-    logger.error(err);
-    res.json({message:err});
-  }
+  // try{
+  //   const user = await UserSchema.findOne({publicAddress:publicAddress});
+  // }catch(err){
+  //   logger.error(err);
+  //   res.json({message:'an error occured'});
+  // }
 
+  const user = await UserSchema.findOne({publicAddress:publicAddress});
   logger.debug(user)
 
   // check if the signedNonce was signed using the private key of the publicAddress
   const msgBuffer = ethUtil.toBuffer(user.nonce);
+  logger.debug("MESSAGE BUFFER IS " + msgBuffer)
   const msgHash = ethUtil.hashPersonalMessage(msgBuffer);
   const signatureBuffer = ethUtil.toBuffer(signedNonce);
   const signatureParams = ethUtil.fromRpcSig(signatureBuffer);
@@ -55,6 +57,7 @@ router.post('/login', async (req, res) => {
     signatureParams.r,
     signatureParams.s
   );
+  logger.debug(publicKey)
   const addressBuffer = ethUtil.publicToAddress(publicKey);
   const address = ethUtil.bufferToHex(addressBuffer);
 
@@ -77,6 +80,9 @@ router.post('/login', async (req, res) => {
     logger.error(err);
     res.json({message:err});
   }
+  //await user.save()
+  res.json({accessToken:accessToken, refreshToken: refreshToken});  
+
 });
 
 router.post('/refresh', async (req, res) => {
