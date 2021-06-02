@@ -57,7 +57,8 @@ describe("POST /user/register", () => {
             res.should.have.status(200);
             logger.debug(res.body);
         
-            done();
+            
         })
+        done();
     });
 });

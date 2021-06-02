@@ -30,15 +30,11 @@ let corsOptions = {
   optionsSuccessStatus: 200 // For legacy browser support
 }
 
-<<<<<<< HEAD
 // middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors(corsOptions));
 // app.use(cors())
-=======
-
->>>>>>> 4d85ac50dab0c3d62e1b179404af9bd7077435e5
 
 
 // routes
