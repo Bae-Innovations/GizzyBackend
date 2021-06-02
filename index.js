@@ -10,6 +10,13 @@ const ACCESS_TOKEN_SECRET = 'access123456789';
 
 // initializations
 const app = express();
+
+// middlewares
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+// app.use(cors(corsOptions));
+app.use(cors())
+
 var port = process.env.PORT || 8080;
 
 // connecting to database
@@ -23,11 +30,7 @@ mongoose.connect('mongodb+srv://gizzy:cftXDR456@cluster0.az372.mongodb.net/testd
 //   optionsSuccessStatus: 200 // For legacy browser support
 // }
 
-// middlewares
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-// app.use(cors(corsOptions));
-app.use(cors())
+
 
 
 // routes
