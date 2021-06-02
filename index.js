@@ -11,12 +11,6 @@ const ACCESS_TOKEN_SECRET = 'access123456789';
 // initializations
 const app = express();
 
-// middlewares
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-// app.use(cors(corsOptions));
-app.use(cors())
-
 var port = process.env.PORT || 8080;
 
 // connecting to database
