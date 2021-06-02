@@ -32,8 +32,7 @@ describe("POST /user/register", () => {
             logger.debug("the body for the register endpoint in test")
             logger.debug(res.body)
 
-
-        done();
+            done();
         })
     })
     it("It should send a public address, get a nonce, sign the nonce and get tokens", (done) => {
@@ -57,8 +56,8 @@ describe("POST /user/register", () => {
         .end((err, res) => {
             res.should.have.status(200);
             logger.debug(res.body);
+        
+            done();
         })
-
-        done();
     });
 });

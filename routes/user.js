@@ -31,6 +31,9 @@ router.post('/login', async (req, res) => {
   const publicAddress = req.body.publicAddress;
   const signedNonce = req.body.signedNonce;
 
+  logger.debug(publicAddress)
+  logger.debug(signedNonce) 
+
   // get the user document
   try{
     const user = await UserSchema.findOne({publicAddress:publicAddress});
@@ -38,6 +41,8 @@ router.post('/login', async (req, res) => {
     logger.error(err);
     res.json({message:err});
   }
+
+  logger.debug(user)
 
   // check if the signedNonce was signed using the private key of the publicAddress
   const msgBuffer = ethUtil.toBuffer(user.nonce);
