@@ -1,38 +1,22 @@
 const express = require('express');
-const logger = require('../logger/logger');
-const CollectionSchema = require('../models/Collection');
+
 
 const router = express.Router();
 
-router.get('/', async (req, res) => {
-    try{
-        let collection = await CollectionSchema.find();
-        res.json(collection);
-    }catch(err){
-        logger.error(err);
-        res.json({message:err})
-    }
-});
+const {
+    getCollection,
+    postCollection,
+    postGizzy,
+    deleteGizzy
 
-router.post('/', async (req, res) => {
-    let collection = new CollectionSchema({
-        name: req.body.name
-    })
-    try {
-        const savedCollection = await collection.save();
-        res.json(savedCollection);
-    } catch (err) {
-        logger.error(err);
-        res.json({message: err});
-    }
-});
+} = require('../controllers/collection')
 
-router.post('/gizzy', (req, res) => {
-  res.send('this is the endpoint to add gizzy to collection');
-});
+router.get('/', getCollection);
 
-router.delete('/gizzy', (req, res) => {
-  res.send('this is the endpoint to remove gizzy from collection');
-});
+router.post('/', postCollection);
+
+router.post('/gizzy', postGizzy);
+
+router.delete('/gizzy', deleteGizzy);
 
 module.exports = router;
