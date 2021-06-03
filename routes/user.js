@@ -1,7 +1,7 @@
 const express = require('express');
 const logger = require('../logger/logger');
 const jwt = require('jsonwebtoken');
-const ethUtil = require('ethereumjs-util');
+const cryptographicCheck = require('../utils/cryptography')
 
 const UserSchema = require('../models/User');
 const ACCESS_TOKEN_SECRET = 'access123456789';
@@ -31,58 +31,30 @@ router.post('/login', async (req, res) => {
   const publicAddress = req.body.publicAddress;
   const signedNonce = req.body.signedNonce;
 
-  logger.debug(publicAddress)
-  logger.debug(signedNonce) 
-
-  // get the user document
-  // try{
-  //   const user = await UserSchema.findOne({publicAddress:publicAddress});
-  // }catch(err){
-  //   logger.error(err);
-  //   res.json({message:'an error occured'});
-  // }
-
   const user = await UserSchema.findOne({publicAddress:publicAddress});
-  logger.debug(user)
+  const nonce = user.nonce;
 
-  // check if the signedNonce was signed using the private key of the publicAddress
-  const msgBuffer = ethUtil.toBuffer(user.nonce);
-  logger.debug("MESSAGE BUFFER IS " + msgBuffer)
-  const msgHash = ethUtil.hashPersonalMessage(msgBuffer);
-  const signatureBuffer = ethUtil.toBuffer(signedNonce);
-  const signatureParams = ethUtil.fromRpcSig(signatureBuffer);
-  const publicKey = ethUtil.ecrecover(
-    msgHash,
-    signatureParams.v,
-    signatureParams.r,
-    signatureParams.s
-  );
-  logger.debug(publicKey)
-  const addressBuffer = ethUtil.publicToAddress(publicKey);
-  const address = ethUtil.bufferToHex(addressBuffer);
+  result = cryptographicCheck(publicAddress, nonce, signedNonce).then((response) => {
+    // if authentication is successful, create access token and refresh token
+    const accessToken = jwt.sign({publicAddress: publicAddress}, ACCESS_TOKEN_SECRET, {expiresIn:'300s'});
+    const refreshToken = jwt.sign({publicAddress: publicAddress}, REFRESH_TOKEN_SECRET);
 
-  if (address.toLowerCase() === publicAddress.toLowerCase()) {} else {
-    return res
-      .status(401)
-      .send({ error: 'Signature verification failed' });
-  }
-
-  // if authentication is successful, create access token and refresh token
-  const accessToken = jwt.sign({publicAddress: publicAddress}, ACCESS_TOKEN_SECRET, {expiresIn:'300s'});
-  const refreshToken = jwt.sign({publicAddress: publicAddress}, REFRESH_TOKEN_SECRET);
-  
-  // save the refresh token in the user document and return both of the tokens
-  user.refreshToken = refreshToken;
-  try {
-    await user.save()
+    // save the refresh token in the user document and return both of the tokens
+    user.refreshToken = refreshToken;
+    try {
+      await user.save()
+      res.json({accessToken:accessToken, refreshToken: refreshToken});  
+    } catch (err) {
+      logger.error(err);
+      res.json({message:err});
+    }
+    //await user.save()
     res.json({accessToken:accessToken, refreshToken: refreshToken});  
-  } catch (err) {
-    logger.error(err);
-    res.json({message:err});
-  }
-  //await user.save()
-  res.json({accessToken:accessToken, refreshToken: refreshToken});  
-
+  }).catch ((error) => {
+    logger.error(error);
+    res.json({msg:error})
+  })
+  
 });
 
 router.post('/refresh', async (req, res) => {
