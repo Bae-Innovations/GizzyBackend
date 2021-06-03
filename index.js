@@ -2,6 +2,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors')
+const {parameterGizzyAdd,sampleGizzyAdd} = require('./addgizzy')
 
 const logger = require('./logger/logger');
 const authenticateToken = require('./middleware');
@@ -14,9 +15,15 @@ const app = express();
 var port = process.env.PORT || 8080;
 
 // connecting to database
-mongoose.connect('mongodb+srv://gizzy:cftXDR456@cluster0.az372.mongodb.net/testdb?retryWrites=true&w=majority',
+mongoose.connect('mongodb+srv://gizzy:password@1234@cluster0.mujp0.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
   { useNewUrlParser: true, useUnifiedTopology: true },
   () => logger.info('connected to DB!'));
+
+  //new gizzy add
+  // sampleGizzyAdd()
+
+  parameterGizzyAdd('24vsfvsvs','hello',123.456,'fewewfw','edvdvfdsvdvds','warmup',2,1,'ok gizzy cute gizzy','fsfc343dsad','01/06/20',
+                    'cyberpunk',3,4,2,3,'42jhahdm','ds3223ed','child23ee2')
 
 //defining cors policy
 let corsOptions = {
