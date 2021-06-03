@@ -42,8 +42,12 @@ router.post('/login', async (req, res) => {
     // save the refresh token in the user document and return both of the tokens
     user.refreshToken = refreshToken;
     try {
-      await user.save()
-      res.json({accessToken:accessToken, refreshToken: refreshToken});  
+      user.save().then(() => {
+        res.json({accessToken:accessToken, refreshToken: refreshToken})
+      }).catch((error) => {
+        logger.error(error);
+      })
+       
     } catch (err) {
       logger.error(err);
       res.json({message:err});
