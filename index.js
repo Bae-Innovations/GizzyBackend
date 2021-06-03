@@ -22,8 +22,8 @@ mongoose.connect('mongodb+srv://gizzy:password@1234@cluster0.mujp0.mongodb.net/m
   //new gizzy add
   // sampleGizzyAdd()
 
-  parameterGizzyAdd('24vsfvsvs','hello',123.456,'fewewfw','edvdvfdsvdvds','warmup',2,1,'ok gizzy cute gizzy','fsfc343dsad','01/06/20',
-                    'cyberpunk',3,4,2,3,'42jhahdm','ds3223ed','child23ee2')
+  // parameterGizzyAdd('24vsfvsvs','hello',123.456,'fewewfw','edvdvfdsvdvds','warmup',2,1,'ok gizzy cute gizzy','fsfc343dsad','01/06/20',
+  //                   'cyberpunk',3,4,2,3,'42jhahdm','ds3223ed','child23ee2')
 
 //defining cors policy
 let corsOptions = {

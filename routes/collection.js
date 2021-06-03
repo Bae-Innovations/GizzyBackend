@@ -4,14 +4,14 @@ const express = require('express');
 const router = express.Router();
 
 const {
-    getCollection,
+    getGizzy,
     postCollection,
     postGizzy,
     deleteGizzy
 
-} = require('../controllers/collection')
+} = require('../controllers/gizzyControllers')
 
-router.get('/', getCollection);
+router.get('/', getGizzy);
 
 router.post('/', postCollection);
 
