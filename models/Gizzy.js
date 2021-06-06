@@ -40,8 +40,8 @@ const GizzySchema = mongoose.Schema({
       charisma: requiredNumber,
   },
   parents: {
-      father: requiredString,
-      mother: requiredString,
+      fatherId: requiredString,
+      motherId: requiredString,
   },
   children_list: [String],
 });

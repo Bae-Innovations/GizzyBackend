@@ -26,8 +26,8 @@ const sampleGizzyAdd = async() => {
             charisma: 3,
         },
         parents: {
-            father: '68nonio678nO&hnmo7nohmp',
-            mother: 'nmi&jhmMMMMIM89m890',
+            fatherId: '68nonio678nO&hnmo7nohmp',
+            motherId: 'nmi&jhmMMMMIM89m890',
         },
         children_list: ['23wafaf23','2r2rwefwf23r','23r32r23rd']
   
@@ -43,7 +43,7 @@ const sampleGizzyAdd = async() => {
 
 const parameterGizzyAdd = async(gizzyId,gizzyName,gizzyPrice,ownedBy,gizzyImage,gizzyStatus,generation,cooldownTime,
                                 bio,hatched_by,birthday,lycanoType,attributesStrenth,attributesConstitution,attributesRestoration,
-                                attributesCharisma,father,mother,children1) => {
+                                attributesCharisma,fatherId,motherId,children1) => {
 
     //added a new user 
     const parameterGizzy = {
@@ -66,8 +66,8 @@ const parameterGizzyAdd = async(gizzyId,gizzyName,gizzyPrice,ownedBy,gizzyImage,
             charisma: attributesCharisma,
         },
         parents: {
-            father: father,
-            mother: mother,
+            fatherId: fatherId,
+            motherId: motherId,
         },
         children_list:[children1]
   
