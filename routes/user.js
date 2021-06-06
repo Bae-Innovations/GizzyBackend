@@ -37,7 +37,7 @@ router.post('/register', (req, res) => {
   const bearerToken = rand() + rand() + rand() + rand() + rand();
 
   // this routes creates a user
-  const gizzy = new UserSchema({
+  const user = new UserSchema({
     publicAddress: publicAddress,
     username: username,
     email: email,
@@ -45,9 +45,15 @@ router.post('/register', (req, res) => {
     bearerToken: bearerToken
   })
 
-  gizzy.save().then((result) => {
+  user.save().then((result) => {
+    logger.debug("user has been created")
+    logger.debug(Object.keys(result))
     res.json({'message':result})
   }).catch((error) => {
+    logger.debug("an error occured while created user")
+    logger.debug(Object.keys(error))
+    logger.debug(error._message)
+    logger.debug(Object.keys(error.errors))
     res.json({'message':error})
   })
   
@@ -62,7 +68,9 @@ router.post('/login', (req, res) => {
     if (user == null){
       res.status(400).json({'message':'user not found'})
     } else {
-      res.json({'message':user.nonce})
+      logger.debug("in the router, nonce is " + user.nonce)
+      logger.debug(Object.keys(result))
+      res.json({'message':result.nonce})
     }
   });
 });
@@ -79,6 +87,7 @@ router.post('/authenticate', (req, res) => {
     const nonce = user.nonce;
     cryptographicCheck(publicAddress, nonce, signedNonce).then((response) => {
       const bearerToken = user.bearerToken;
+      logger.debug("sending a bearer token back")
       res.json({'bearerToken':bearerToken})
     }).catch((error) => {
       logger.error(error);
