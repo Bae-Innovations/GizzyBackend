@@ -3,7 +3,7 @@ const logger = require('../logger/logger');
 const CollectionSchema = require('../models/Collection');
 const GizzySchema = require('../models/Gizzy');
 
-const getGizzy = async (req, res) => {
+const searchGizzy = async (req, res) => {
 
   
     const { gizzy_name,lycano_type,descending_prize } = req.query
@@ -30,6 +30,15 @@ const getGizzy = async (req, res) => {
         if(lycano_type){
             collection = await GizzySchema.find({
                 lycano_type: lycano_type
+            })
+        }
+
+        //find gizzy by lycanotype and descending prize sort
+        if(lycano_type && descending_prize){
+            collection = await GizzySchema.find({
+                lycano_type: lycano_type
+            }).sort({
+                gizzy_price: -1,
             })
         }
 
@@ -70,5 +79,5 @@ const deleteGizzy = async  (req, res) => {
 }
 
 module.exports = {
-    getGizzy,postCollection,postGizzy, deleteGizzy
+    searchGizzy,postCollection,postGizzy, deleteGizzy
 }

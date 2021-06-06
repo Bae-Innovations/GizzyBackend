@@ -1,15 +1,22 @@
 const express = require('express');
-const logger = require('../logger/logger');
-const Gizzy = require('../models/Gizzy');
-const {
-  getGizzy,
-  postCollection,
-  postGizzy, 
-  deleteGizzy
-} = require('../controllers/gizzyControllers')
+
 
 const router = express.Router();
 
-router.get('/', getGizzy);
+const {
+    searchGizzy,
+    postCollection,
+    postGizzy,
+    deleteGizzy
+
+} = require('../controllers/gizzyControllers')
+
+router.get('/search', searchGizzy);
+
+router.post('/', postCollection);
+
+router.post('/gizzy', postGizzy);
+
+router.delete('/gizzy', deleteGizzy);
 
 module.exports = router;
