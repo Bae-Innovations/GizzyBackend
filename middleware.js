@@ -4,28 +4,22 @@ const UserSchema = require('./models/User')
 
 // incomplete middleware to get the user
 async function authenticateToken (req, res, next) {
-    let accessToken = req.headers['accessToken'];
-    if (accessToken == null) return res.sendStatus(403);
-  
-    // try decoding the jwt to get the payload
-    try {
-      let decoded = jwt.verify(accessToken, ACCESS_TOKEN_SECRET);
-    } catch(err){
-      logger.error(err);
-      res.send({message:err})
+    let bearer = req.headers['authorization'];
+    if (bearer == null){
+      req.user_id = null;
     }
-  
-    // get publicAddress from payload
-    let publicAddress = accessToken.publicAddress;
+
+    UserSchema.findOne({bearerToken:bearer}).then((user) => {
+      if (user == null){
+        // set user id on req to null
+        req.user_id = null;
+      } else {
+        // add the user's id to the req
+        const user_id = user._id;
+        req.user_id = user_id;
+      }
+    })
     
-    // get the user document
-    try{
-        const user = await UserSchema.findOne({publicAddress:publicAddress});
-    }catch(err){
-        logger.error(err);
-        res.json({message:err});
-    }
-  
     next()
   }
 

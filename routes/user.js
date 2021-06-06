@@ -9,81 +9,85 @@ const REFRESH_TOKEN_SECRET = 'refresh123456789';
 
 const router = express.Router();
 
-router.post('/register', async (req, res) => {
-  // receives a request with public address
+router.post('/check', (req, res) => {
+  // this route checks if a user already exists with the given publicAddress or not
   const publicAddress = req.body.publicAddress;
-
-  // get or create a user with given public address
-  const filter = {publicAddress: publicAddress};
-  const randomNumber = Math.floor(Math.random()*10000000)
-  const update = {nonce:randomNumber};
-  const user = await UserSchema.findOneAndUpdate(filter, update, {
-    new: true,
-    upsert: true //add it if it doesnt exist yet
-  });
-
-  // return the nonce assosciated with the public address
-  res.json({nonce:user.nonce});
+  const user = UserSchema.findOne({publicAddress: publicAddress}).then((user) => {
+    if (user == null){
+      res.status(400).json({'message':'user not found'})
+    } else {
+      res.status(200).json({'message': 'account with given public address exists'})
+    }
+  }).catch((error) => {
+    logger.debug(error);
+  })
 });
 
-router.post('/login', async (req, res) => {
-  // receives a public address & signed nonce
+router.post('/register', (req, res) => {
   const publicAddress = req.body.publicAddress;
-  const signedNonce = req.body.signedNonce;
+  const username = req.body.username;
+  const email = req.body.email;
 
-  const user = await UserSchema.findOne({publicAddress:publicAddress});
-  const nonce = user.nonce;
+  const nonce = Math.floor(Math.random()*10000000);
 
-  result = cryptographicCheck(publicAddress, nonce, signedNonce).then((response) => {
-    // if authentication is successful, create access token and refresh token
-    const accessToken = jwt.sign({publicAddress: publicAddress}, ACCESS_TOKEN_SECRET, {expiresIn:'300s'});
-    const refreshToken = jwt.sign({publicAddress: publicAddress}, REFRESH_TOKEN_SECRET);
+  const rand = function() {
+    return Math.random().toString(36).substr(2)
+  };
 
-    // save the refresh token in the user document and return both of the tokens
-    user.refreshToken = refreshToken;
-    try {
-      user.save().then(() => {
-        res.json({accessToken:accessToken, refreshToken: refreshToken})
-      }).catch((error) => {
-        logger.error(error);
-      })
-       
-    } catch (err) {
-      logger.error(err);
-      res.json({message:err});
-    }
-    //await user.save()
-    res.json({accessToken:accessToken, refreshToken: refreshToken});  
-  }).catch ((error) => {
-    logger.error(error);
-    res.json({msg:error})
+  const bearerToken = rand() + rand() + rand() + rand() + rand();
+
+  // this routes creates a user
+  const gizzy = new UserSchema({
+    publicAddress: publicAddress,
+    username: username,
+    email: email,
+    nonce: nonce,
+    bearerToken: bearerToken
+  })
+
+  gizzy.save().then((result) => {
+    res.json({'message':result})
+  }).catch((error) => {
+    res.json({'message':error})
   })
   
 });
 
-router.post('/refresh', async (req, res) => {
-  // accepts public address and refresh token
-  const refreshToken = req.body.refreshToken;
+router.post('/login', (req, res) => {
+  // receives a request with public address
   const publicAddress = req.body.publicAddress;
 
-  // get the user document
-  try{
-    const user = await UserSchema.findOne({publicAddress:publicAddress});
-  }catch(err){
-    logger.error(err);
-    res.json({message:err});
-  }
+  // get user with given public address
+  const user = UserSchema.findOne({publicAddress:publicAddress}).then((result) => {
+    if (user == null){
+      res.status(400).json({'message':'user not found'})
+    } else {
+      res.json({'message':user.nonce})
+    }
+  });
+});
 
-  // check if refresh token match with the user
-  if (user.refreshToken === refreshToken){} else {
-    return res
-      .status(401)
-      .send({ error: 'Refresh token did not match' });
-  }
 
-  // create new access token and send in response
-  const accessToken = jwt.sign({publicAddress: publicAddress}, ACCESS_TOKEN_SECRET, {expiresIn:'300s'});
-  res.json({accessToken:accessToken});  
+router.post('/authenticate', (req, res) => {
+  // this route checks if sign is made by owner. if yes, give token
+  // receives a request with public address
+  // returns the bearer token
+  const publicAddress = req.body.publicAddress;
+  const signedNonce = req.body.signedNonce;
+
+  UserSchema.findOne({publicAddress:publicAddress}).then((user) => {
+    const nonce = user.nonce;
+    cryptographicCheck(publicAddress, nonce, signedNonce).then((response) => {
+      const bearerToken = user.bearerToken;
+      res.json({'bearerToken':bearerToken})
+    }).catch((error) => {
+      logger.error(error);
+      res.json(error);
+    }).catch((error) => {
+      logger.error(error);
+      res.json(error)
+    })
+  });
 });
 
 module.exports = router;

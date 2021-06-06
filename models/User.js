@@ -3,8 +3,15 @@ const Gizzy = require('./Gizzy');
 
 const UserSchema = mongoose.Schema({
   // username will be the public address of the wallet
-  name: {
-    type: String
+  username: {
+    type: String,
+    unique: true,
+    required: true
+  },
+  email: {
+    type: String,
+    unique: true,
+    required: true
   },
   publicAddress: {
     type: String,
@@ -14,7 +21,7 @@ const UserSchema = mongoose.Schema({
   nonce: {
     type: String,
   },
-  refreshToken: {
+  bearerToken: {
       type: String
   }
   // liked: {
