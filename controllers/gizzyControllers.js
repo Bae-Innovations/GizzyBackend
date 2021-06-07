@@ -6,7 +6,7 @@ const GizzySchema = require('../models/Gizzy');
 const searchGizzy = async (req, res) => {
 
   
-    const { gizzy_name,lycano_type,descending_prize } = req.query
+    const { gizzy_name,lycano_type,descending_prize,page,limit } = req.query
    
     
     
@@ -16,13 +16,13 @@ const searchGizzy = async (req, res) => {
 
         let collection = await GizzySchema.find().sort({
                gizzy_price: 1,
-        })
+        }).limit(limit*1).skip((page-1)*limit)
         
         //find all the gizy sorting with price descending
         if(descending_prize){
             collection = await GizzySchema.find().sort({
                 gizzy_price: -1,
-            })
+            }).limit(limit*1).skip((page-1)*limit)
         }
         
 
@@ -30,7 +30,7 @@ const searchGizzy = async (req, res) => {
         if(lycano_type){
             collection = await GizzySchema.find({
                 lycano_type: lycano_type
-            })
+            }).limit(limit*1).skip((page-1)*limit)
         }
 
         //find gizzy by lycanotype and descending prize sort
@@ -39,14 +39,14 @@ const searchGizzy = async (req, res) => {
                 lycano_type: lycano_type
             }).sort({
                 gizzy_price: -1,
-            })
+            }).limit(limit*1).skip((page-1)*limit)
         }
 
         //find gizzy by the name
         if(gizzy_name){
             collection = await GizzySchema.find({
                 gizzy_name: gizzy_name
-            })
+            }).limit(limit*1).skip((page-1)*limit)
         }
 
         res.json(collection);
