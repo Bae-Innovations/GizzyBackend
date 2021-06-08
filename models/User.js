@@ -17,12 +17,17 @@ const UserSchema = mongoose.Schema({
     type: String,
     lowercase: true,
     required: true,
+    unique:true
   },
   nonce: {
     type: String,
   },
   bearerToken: {
       type: String
+  },
+  isAdmin: {
+    type: Boolean,
+    default: false
   }
   // liked: {
   //    type:

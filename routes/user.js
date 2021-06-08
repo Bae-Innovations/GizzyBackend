@@ -9,6 +9,18 @@ const REFRESH_TOKEN_SECRET = 'refresh123456789';
 
 const router = express.Router();
 
+router.post('/', (req, res) => {
+  // gets user
+  const publicAddress = req.body.publicAddress;
+  const user = UserSchema.findOne({publicAddress:publicAddress}).then((result) => {
+    if (user == null){
+      res.status(400).json({'message':'user not found'})
+    } else {
+      res.json({'username':result.username, 'email':result.email, 'publicAddress':result.publicAddress, 'isAdmin':result.isAdmin})
+    }
+  });
+})
+
 router.post('/check', (req, res) => {
   // this route checks if a user already exists with the given publicAddress or not
   const publicAddress = req.body.publicAddress;
@@ -35,6 +47,8 @@ router.post('/register', (req, res) => {
   };
 
   const bearerToken = rand() + rand() + rand() + rand() + rand();
+
+  UserSchema.findOne()
 
   // this routes creates a user
   const user = new UserSchema({
@@ -98,5 +112,15 @@ router.post('/authenticate', (req, res) => {
     })
   });
 });
+
+router.post('/delete', (req, res) => {
+  // this route deletes a user
+  const user = UserSchema.deleteOne({publicAddress:publicAddress}).then((result) => {
+    res.json({'message': 'user has been deleted'})
+  }).catch ((error) => {
+    logger.debug(error)
+    res.status(400).json({'message': 'could not delete the user account'})
+  })
+})
 
 module.exports = router;
