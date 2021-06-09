@@ -5,7 +5,7 @@ const cors = require('cors')
 const {parameterGizzyAdd,sampleGizzyAdd} = require('./addgizzy')
 
 const logger = require('./logger/logger');
-const authenticateToken = require('./middleware');
+//const authenticateToken = require('./middleware');
 
 const ACCESS_TOKEN_SECRET = 'access123456789';
 

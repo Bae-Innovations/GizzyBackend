@@ -2,12 +2,14 @@ const express = require('express');
 const logger = require('../logger/logger');
 const jwt = require('jsonwebtoken');
 const cryptographicCheck = require('../utils/cryptography')
+const onlyAdminMiddleware = require('../middlewares/authenticateToken');
 
 const UserSchema = require('../models/User');
 const ACCESS_TOKEN_SECRET = 'access123456789';
 const REFRESH_TOKEN_SECRET = 'refresh123456789';
 
 const router = express.Router();
+router.use(onlyAdminMiddleware)
 
 router.get('/', (req, res) => {
   // gets user
@@ -114,8 +116,10 @@ router.post('/authenticate', (req, res) => {
   });
 });
 
-router.delete('/', (req, res) => {
+router.delete('/', (req, res, onlyAdminMiddleware) => {
   // this route deletes a user
+  logger.debug("The public address from request is ")
+  logger.debug(req.publicAddress)
   const publicAddress = req.query.publicAddress;
   const user = UserSchema.deleteMany({publicAddress:publicAddress}).then((result) => {
     res.json({'message': 'user has been deleted'})
