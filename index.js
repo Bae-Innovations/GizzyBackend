@@ -52,6 +52,7 @@ app.get('/', (req, res) => {
 
 app.use('/user', require('./routes/user'));
 app.use('/gizzy', require('./routes/gizzy'));
+app.use('/minting', require('./routes/minting'));
 // app.use('/collection', require('./routes/collection'));
 
 app.get('*', (req, res) => {

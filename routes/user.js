@@ -1,15 +1,10 @@
 const express = require('express');
 const logger = require('../logger/logger');
-const jwt = require('jsonwebtoken');
-const cryptographicCheck = require('../utils/cryptography')
-const onlyAdminMiddleware = require('../middlewares/authenticateToken');
+const cryptographicCheck = require('../utils/cryptography');
 
 const UserSchema = require('../models/User');
-const ACCESS_TOKEN_SECRET = 'access123456789';
-const REFRESH_TOKEN_SECRET = 'refresh123456789';
 
 const router = express.Router();
-router.use(onlyAdminMiddleware)
 
 router.get('/', (req, res) => {
   // gets user
