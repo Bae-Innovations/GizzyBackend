@@ -20,6 +20,6 @@ router.post('/gizzy', postGizzy);
 
 router.delete('/gizzy', deleteGizzy);
 
-router.post('gizzy/mint/', mintGizzy);
+router.post('gizzy/mint', mintGizzy);
 
 module.exports = router;
