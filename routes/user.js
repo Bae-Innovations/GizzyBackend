@@ -9,11 +9,11 @@ const REFRESH_TOKEN_SECRET = 'refresh123456789';
 
 const router = express.Router();
 
-router.post('/', (req, res) => {
+router.get('/', (req, res) => {
   // gets user
-  const publicAddress = req.body.publicAddress;
+  const publicAddress = req.query.publicAddress;
   const user = UserSchema.findOne({publicAddress:publicAddress}).then((result) => {
-    if (user == null){
+    if (result == null){
       res.status(400).json({'message':'user not found'})
     } else {
       res.json({'username':result.username, 'email':result.email, 'publicAddress':result.publicAddress, 'isAdmin':result.isAdmin})
@@ -39,6 +39,7 @@ router.post('/register', (req, res) => {
   const publicAddress = req.body.publicAddress;
   const username = req.body.username;
   const email = req.body.email;
+  logger.debug(publicAddress)
 
   const nonce = Math.floor(Math.random()*10000000);
 
@@ -113,9 +114,10 @@ router.post('/authenticate', (req, res) => {
   });
 });
 
-router.post('/delete', (req, res) => {
+router.delete('/', (req, res) => {
   // this route deletes a user
-  const user = UserSchema.deleteOne({publicAddress:publicAddress}).then((result) => {
+  const publicAddress = req.query.publicAddress;
+  const user = UserSchema.deleteMany({publicAddress:publicAddress}).then((result) => {
     res.json({'message': 'user has been deleted'})
   }).catch ((error) => {
     logger.debug(error)
