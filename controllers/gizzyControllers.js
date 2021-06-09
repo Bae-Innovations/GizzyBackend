@@ -3,6 +3,8 @@ const logger = require('../logger/logger');
 const CollectionSchema = require('../models/Collection');
 const GizzySchema = require('../models/Gizzy');
 
+const ipfs = require("nano-ipfs-store").at("https://ipfs.infura.io:5001");
+
 const searchGizzy = async (req, res) => {
 
   
@@ -78,6 +80,23 @@ const deleteGizzy = async  (req, res) => {
     res.send('this is the endpoint to remove gizzy from collection');
 }
 
+const mintGizzy = async (req, res) => {
+    // takes in bool, address, and meta
+    owner = req.body.owner;
+    breedable = req.body.breedable
+    meta = req.body.meta
+
+    const doc = JSON.stringify({
+        owner: owner,
+        breedable: breedable,
+        meta: meta
+    })
+
+    const cid = await ipfs.add(doc)
+    res.json({'ipfs_hash': cid})
+
+}
+
 module.exports = {
-    searchGizzy,postCollection,postGizzy, deleteGizzy
+    searchGizzy,postCollection,postGizzy, deleteGizzy, mintGizzy
 }
