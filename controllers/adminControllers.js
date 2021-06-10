@@ -3,15 +3,12 @@ const express = require('express');
 const logger = require('../logger/logger');
 const onlyAdminMiddleware = require('../middlewares/onlyAdmin');
 
-const fs = require('fs');
-
-
 const registerAdmin = async (req, res) => {
 
     const publicAddress = req.body.publicAddress;
     const username = req.body.username;
     const email = req.body.email;
-    logger.debug(publicAddress)
+    logger.debug(publicAddress);
 
     const nonce = Math.floor(Math.random()*10000000);
 
