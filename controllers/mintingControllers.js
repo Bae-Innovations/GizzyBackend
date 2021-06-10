@@ -23,15 +23,9 @@ const addImageIPFS = async (req, res) => {
 
 const addMetadataIPFS = async (req, res) => {
     // takes in bool, address, and meta
-    owner = req.body.owner;
-    breedable = req.body.breedable
-    meta = req.body.meta
+    meta = req.body
 
-    const doc = JSON.stringify({
-        owner: owner,
-        breedable: breedable,
-        meta: meta
-    })
+    const doc = JSON.stringify({meta})
 
     const cid = await client.add(doc)
     res.json({'ipfs_hash': cid.path})
