@@ -43,6 +43,57 @@ const registerAdmin = async (req, res) => {
     })
 };
 
+const getAllUser = async (req, res) => {
+    const user = UserSchema.findAll().then((result) => {
+    return_list = []
+
+    if (result == null){
+        res.status(400).json({'message':'an error occured'})
+    } else {
+        result.forEach((user)=>{
+            return_user = {
+                publicAddress: user.publicAddress,
+                email: user.email,
+                username: user.username,
+                gizzyCoin: user.gizzyCoin
+            }
+            return_list.push(return_user)
+        })
+        res.json(return_list)
+    }
+    });
+}
+
+const gizzyCoinFilter = async (req, res) => {
+    // get who has how much gizzycoin?
+    logger.debug("entering gizzycoinfilter");
+};
+
+const giftGizzyCoin = async (req, res) => {
+    const publicAddress = req.body.publicAddress;
+    const amount = req.body.amount;
+
+    // get the user object
+    const user = UserSchema.findOne({publicAddress: publicAddress}).then((user) => {
+        if (user == null){
+          res.status(400).json({'message':'user not found'})
+        } else {
+          user.gizzyCoin += amount;
+          user.save()
+          .then((result) => {res.json({
+            publicAddress: user.publicAddress,
+            username: user.username,
+            email: user.email,
+            gizzyCoin: user.gizzyCoin
+          })})
+          .catch((error) => {res.status(400).json({'message':error})})
+        }
+      }).catch((error) => {
+        logger.debug(error);
+      })
+    // change value of user and respond back
+};
+
 module.exports = {
-    registerAdmin
+    registerAdmin, getAllUser, gizzyCoinFilter, giftGizzyCoin
 }

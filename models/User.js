@@ -28,6 +28,10 @@ const UserSchema = mongoose.Schema({
   isAdmin: {
     type: Boolean,
     default: false
+  },
+  gizzyCoin: {
+    type: Number,
+    default: 0    
   }
   // liked: {
   //    type:
