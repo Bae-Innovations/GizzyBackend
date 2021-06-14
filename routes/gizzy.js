@@ -9,7 +9,8 @@ const {
     postCollection,
     postGizzy,
     deleteGizzy,
-    claimGizzy
+    claimGizzy,
+    ownedGizzy
 
 } = require('../controllers/gizzyControllers')
 
@@ -22,5 +23,7 @@ router.post('/gizzy', postGizzy);
 router.delete('/gizzy', deleteGizzy);
 
 router.post('/claim', claimGizzy);
+
+router.post('/owned', ownedGizzy);
 
 module.exports = router;

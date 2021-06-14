@@ -9,7 +9,8 @@ const router = express.Router();
 router.get('/', (req, res) => {
   // gets user
   const publicAddress = req.query.publicAddress;
-  const user = UserSchema.findOne({publicAddress:publicAddress}).then((result) => {
+  const user = UserSchema.findOne({publicAddress:publicAddress})
+  .then((result) => {
     if (result == null){
       res.status(400).json({'message':'user not found'})
     } else {
@@ -21,7 +22,8 @@ router.get('/', (req, res) => {
 router.post('/check', (req, res) => {
   // this route checks if a user already exists with the given publicAddress or not
   const publicAddress = req.body.publicAddress;
-  const user = UserSchema.findOne({publicAddress: publicAddress}).then((user) => {
+  const user = UserSchema.findOne({publicAddress: publicAddress})
+  .then((user) => {
     if (user == null){
       res.status(400).json({'message':'user not found'})
     } else {

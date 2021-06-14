@@ -96,30 +96,23 @@ const claimGizzy = async (req, res) => {
     UserSchema.findOne({publicAddress: req.publicAddress})
     .then((user) => {
         if (user == null){
-        res.status(400).json({'message':'user not found'})
+            res.status(400).json({'message':'user not found'})
         } else {
-        res.status(200).json({'message': 'account with given public address exists'})
+            res.status(200).send();
         }
     })
     .catch((error) => {
         logger.debug(error);
     })
 
-    // owner = req.body.owner;
-    // breedable = req.body.breedable
-    // meta = req.body.meta
+}
 
-    // const doc = JSON.stringify({
-    //     owner: owner,
-    //     breedable: breedable,
-    //     meta: meta
-    // })
+const ownedGizzy = async  (req, res) => {
+    res.json({
 
-    // const cid = await ipfs.add(doc)
-    // res.json({'ipfs_hash': cid})
-
+    })
 }
 
 module.exports = {
-    searchGizzy,postCollection,postGizzy, deleteGizzy, claimGizzy
+    searchGizzy,postCollection,postGizzy, deleteGizzy, claimGizzy, ownedGizzy
 }
