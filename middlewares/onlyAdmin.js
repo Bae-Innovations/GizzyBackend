@@ -2,7 +2,7 @@ const logger = require('../logger/logger');
 const UserSchema = require('../models/User')
 
 async function onlyAdmin (req, res, next) {
-    let bearer = req.headers['authorization'];
+    let bearer = req.headers['Authorization'];
     if (bearer == null){
       req.publicAddress = null;
     }

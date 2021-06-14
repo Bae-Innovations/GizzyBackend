@@ -3,7 +3,7 @@ const UserSchema = require('../models/User')
 
 // incomplete middleware to get the user
 async function authenticateToken (req, res, next) {
-    let bearer = req.headers['authorization'];
+    let bearer = req.headers['Authorization'];
     if (bearer == null){
       req.publicAddress = null;
     }

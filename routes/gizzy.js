@@ -1,14 +1,15 @@
 const express = require('express');
-
+const authenticateToken = require('../middlewares/authenticateToken');
 
 const router = express.Router();
+router.use(authenticateToken);
 
 const {
     searchGizzy,
     postCollection,
     postGizzy,
     deleteGizzy,
-    mintGizzy
+    claimGizzy
 
 } = require('../controllers/gizzyControllers')
 
@@ -20,6 +21,6 @@ router.post('/gizzy', postGizzy);
 
 router.delete('/gizzy', deleteGizzy);
 
-router.post('/mint', mintGizzy);
+router.post('/claim', claimGizzy);
 
 module.exports = router;
