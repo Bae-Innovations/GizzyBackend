@@ -89,6 +89,7 @@ const claimGizzy = async (req, res) => {
         if (user == null){
             res.status(400).json({'message':'user not found'})
         } else {
+<<<<<<< HEAD
             let email = user.email;
             if (EmailSchema.find(address=email) != ""){
                 // make the blockchain call
@@ -99,13 +100,26 @@ const claimGizzy = async (req, res) => {
             } else {
                 res.status(401).send("did not win any gizzy")
             }
+=======
+            res.status(200).send();
+>>>>>>> 7d8ada47840a8011efa2a088b6a27c71579cd55d
         }
     })
     .catch((error) => {
         logger.debug(error);
     })
+<<<<<<< HEAD
+=======
+
+}
+
+const ownedGizzy = async  (req, res) => {
+    res.json({
+
+    })
+>>>>>>> 7d8ada47840a8011efa2a088b6a27c71579cd55d
 }
 
 module.exports = {
-    searchGizzy,postCollection,postGizzy, deleteGizzy, claimGizzy
+    searchGizzy,postCollection,postGizzy, deleteGizzy, claimGizzy, ownedGizzy
 }

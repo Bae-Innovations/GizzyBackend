@@ -26,9 +26,9 @@ const GizzySchema = mongoose.Schema({
   gizzy_price: requiredDouble,
   owned_by: requiredString,//owned by user id
   gizzy_image: requiredString,
-  gizzy_status: requiredString,
-  genaration: requiredNumber,
-  cooldown_time_hours: requiredNumber,
+  gizzy_status: requiredString, //??
+  generation: requiredNumber,
+  cooldown_index: requiredNumber,
   bio: requiredString,
   hatched_by: requiredString,//user id string,
   birthday: requiredDate,
