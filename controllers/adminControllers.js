@@ -3,6 +3,7 @@ const express = require('express');
 const logger = require('../logger/logger');
 const onlyAdminMiddleware = require('../middlewares/onlyAdmin');
 const EmailSchema = require('../models/Email');
+const UserSchema = require('../models/User')
 
 const registerAdmin = async (req, res) => {
 
@@ -45,7 +46,7 @@ const registerAdmin = async (req, res) => {
 };
 
 const getAllUser = async (req, res) => {
-    const user = UserSchema.findAll().then((result) => {
+    const user = UserSchema.find({}).then((result) => {
     return_list = []
 
     if (result == null){
@@ -56,7 +57,8 @@ const getAllUser = async (req, res) => {
                 publicAddress: user.publicAddress,
                 email: user.email,
                 username: user.username,
-                gizzyCoin: user.gizzyCoin
+                gizzyCoin: user.gizzyCoin,
+                bearerToken: user.bearerToken
             }
             return_list.push(return_user)
         })

@@ -16,7 +16,7 @@ const {
 } = require('../controllers/adminControllers')
 
 router.post('/register', registerAdmin);
-router.post('users/all', getAllUser);
+router.get('/users/all', getAllUser);
 router.get('/gizzycoins', gizzyCoinFilter);
 router.post('/gizzycoins', giftGizzyCoin);
 router.get('/promo-emails', viewPromoEmails);

@@ -5,6 +5,7 @@ const UserSchema = require('../models/User');
 const GizzySchema = require('../models/Gizzy');
 const EmailSchema = require('../models/Email');
 
+
 const ipfs = require("nano-ipfs-store").at("https://ipfs.infura.io:5001");
 
 const searchGizzy = async (req, res) => {
@@ -83,22 +84,28 @@ const deleteGizzy = async  (req, res) => {
 }
 
 const claimGizzy = async (req, res) => {
-
-    UserSchema.findOne({publicAddress: req.publicAddress})
+    UserSchema.findOne({publicAddress: res.locals.publicAddress})
     .then((user) => {
+        console.log("found the user inside the function")
         if (user == null){
             res.status(400).json({'message':'user not found'})
         } else {
             let email = user.email;
-            if (EmailSchema.find(address=email) != ""){
-                // make the blockchain call
-                // remove from databae
-                EmailSchema.deleteMany(address=email)
-                .then(() => res.send("won the gizzy"))
-                .catch(() => res.send("error happened"))
-            } else {
-                res.status(401).send("did not win any gizzy")
-            }
+            EmailSchema.findOne({address:email})
+            .then((email_list) => {
+                if ( email_list != null){
+                    console.log("email list is not null")
+                    // make the blockchain call
+                    // remove from databae
+                    EmailSchema.deleteMany({address:email})
+                    .then(() => res.send("won the gizzy"))
+                    
+                } else {
+                    console.log("email list null")
+                    res.status(401).send("did not win any gizzy")
+                }
+            })
+            
         }
     })
     .catch((error) => {

@@ -3,22 +3,31 @@ const UserSchema = require('../models/User')
 
 // incomplete middleware to get the user
 async function authenticateToken (req, res, next) {
-    let bearer = req.headers['Authorization'];
+
+    console.log(JSON.stringify(req.headers))
+    let bearer = req.headers.authorization;
     if (bearer == null){
-      req.publicAddress = null;
+      res.publicAddress = null;
+      next()
     }
+
+    bearer = bearer.split(" ")[1]
 
     UserSchema.findOne({bearerToken:bearer}).then((user) => {
       if (user == null){
         // set user id on req to null
-        req.publicAddress = null;
+        res.publicAddress = null;
+        next()
       } else {
+        console.log("found the user")
+        console.log(user.publicAddress)
         // add the user's publicAddress to the req
-        req.publicAddress = user.publicAddress;
+        res.locals.publicAddress = user.publicAddress;
+        next()
       }
     })
     
-    next()
+    
 }
 
 module.exports = authenticateToken;

@@ -2,7 +2,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors')
-const {parameterGizzyAdd,sampleGizzyAdd} = require('./addgizzy')
+//const {parameterGizzyAdd,sampleGizzyAdd} = require('./addgizzy')
 
 const logger = require('./logger/logger');
 //const authenticateToken = require('./middleware');
@@ -12,7 +12,7 @@ const ACCESS_TOKEN_SECRET = 'access123456789';
 // initializations
 const app = express();
 
-var port = process.env.PORT || 8080;
+var port = process.env.PORT || 8001;
 
 // connecting to database
 mongoose.connect('mongodb+srv://gizzy:password@1234@cluster0.mujp0.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
@@ -52,6 +52,7 @@ app.get('/', (req, res) => {
 
 app.use('/user', require('./routes/user'));
 app.use('/gizzy', require('./routes/gizzy'));
+
 
 // requires admin access
 app.use('/minting', require('./routes/minting'));
