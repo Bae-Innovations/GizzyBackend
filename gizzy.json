@@ -1,0 +1,62 @@
+{
+    "id": 8,
+    "name": "Sakib's Gizzy",
+    "generation": 0,
+    "created_at": "2017-12-07T06:54:46.000Z",
+    "image_url": "https://storage.googleapis.com/ck-kitty-image/0x06012c8cf97bead5deae237070f9587f8e7a266d/123606.svg",
+    "gene": "2701-4f69-7a3d-8e44-0001-0035-00f4-00f4-00f4-00f4-00f4-00f4-00f4-00f4-00f4-00f4-00f4-00f4-00f4-00f4-00f4-00f4-00f4-00f4-00f4-00f4-00f4-00f4-00f4-00f4",
+    "gender": "female",
+    "color": "brown-black-black",
+    "bio": "What's up! I'm Kitty #123606. I've never told anyone this, but I once pawed at a dog. I once got in a fight with a moose, and won. We can be friends, but keep the ultra personal stuff to yourself, please.",
+    "is_fancy": false,
+    "is_exclusive": false,
+    "fancy_type": null,
+    "status": {
+        "is_ready": true,
+        "is_gestating": false,
+        "cooldown": "2017-12-07T06:54:46.000Z"
+    },
+    "auction": {},
+    "owner": {
+        "address": "0xb464f93be01bde143c92176d921c1d0d533bc3ca",
+        "image": "8",
+        "nickname": "sakib"
+    },
+    "matron": null,
+    "sire": null,
+    "children": [],
+    "cattributes": [
+        {
+            "description": "orangesoda",
+            "type": null
+        },
+        {
+            "description": "simple",
+            "type": null
+        },
+        {
+            "description": "granitegrey",
+            "type": null
+        },
+        {
+            "description": "coffee",
+            "type": null
+        },
+        {
+            "description": "pouty",
+            "type": null
+        },
+        {
+            "description": "totesbasic",
+            "type": null
+        },
+        {
+            "description": "topaz",
+            "type": null
+        },
+        {
+            "description": "cymric",
+            "type": null
+        }
+    ]
+}
