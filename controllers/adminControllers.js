@@ -2,6 +2,7 @@ const { fromSigned } = require('ethereumjs-util');
 const express = require('express');
 const logger = require('../logger/logger');
 const onlyAdminMiddleware = require('../middlewares/onlyAdmin');
+const EmailSchema = require('../models/Email');
 
 const registerAdmin = async (req, res) => {
 
@@ -94,6 +95,25 @@ const giftGizzyCoin = async (req, res) => {
     // change value of user and respond back
 };
 
+const viewPromoEmails = async (req, res) => {
+    emails = EmailSchema.find({})
+    .then((email_list) => {
+        console.log(email_list)
+        res.json(email_list)
+    });
+};
+
+const addPromoEmails = async (req, res) => {
+    const emails = req.body.emails;
+
+    emails.forEach((email) => {
+        email_address = new EmailSchema({
+            'address':email
+        }).save();
+    })
+    res.send("emails added successfully")
+};
+
 module.exports = {
-    registerAdmin, getAllUser, gizzyCoinFilter, giftGizzyCoin
+    registerAdmin, getAllUser, gizzyCoinFilter, giftGizzyCoin, viewPromoEmails, addPromoEmails
 }

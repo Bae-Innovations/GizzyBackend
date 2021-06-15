@@ -3,6 +3,7 @@ const logger = require('../logger/logger');
 const CollectionSchema = require('../models/Collection');
 const UserSchema = require('../models/User');
 const GizzySchema = require('../models/Gizzy');
+const EmailSchema = require('../models/Email');
 
 const ipfs = require("nano-ipfs-store").at("https://ipfs.infura.io:5001");
 
@@ -82,42 +83,27 @@ const deleteGizzy = async  (req, res) => {
 }
 
 const claimGizzy = async (req, res) => {
-    // input theke i should be able to get the publicAddress
-    // use the publicAddress to get the user from database
-    // get user's email
-    // use the email to check if they winner, 
-    // if yes, remove email from list
-        // mint a gizzy
-        // wait for response 
-        // send response je gizzy mint hoise and u winner
-    // else
-        // winner na hoile direct bolbe je loser haha
 
     UserSchema.findOne({publicAddress: req.publicAddress})
     .then((user) => {
         if (user == null){
-        res.status(400).json({'message':'user not found'})
+            res.status(400).json({'message':'user not found'})
         } else {
-        res.status(200).json({'message': 'account with given public address exists'})
+            let email = user.email;
+            if (EmailSchema.find(address=email) != ""){
+                // make the blockchain call
+                // remove from databae
+                EmailSchema.deleteMany(address=email)
+                .then(() => res.send("won the gizzy"))
+                .catch(() => res.send("error happened"))
+            } else {
+                res.status(401).send("did not win any gizzy")
+            }
         }
     })
     .catch((error) => {
         logger.debug(error);
     })
-
-    // owner = req.body.owner;
-    // breedable = req.body.breedable
-    // meta = req.body.meta
-
-    // const doc = JSON.stringify({
-    //     owner: owner,
-    //     breedable: breedable,
-    //     meta: meta
-    // })
-
-    // const cid = await ipfs.add(doc)
-    // res.json({'ipfs_hash': cid})
-
 }
 
 module.exports = {
