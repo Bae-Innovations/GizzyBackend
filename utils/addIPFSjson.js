@@ -7,8 +7,5 @@ const addIPFSjson = async(meta) => {
     const cid = await client.add(doc)
     return cid.path
 }
-
-addIPFSjson({name:'imtiaz'})
-.then((res) => console.log(res))
  
 module.exports = addIPFSjson

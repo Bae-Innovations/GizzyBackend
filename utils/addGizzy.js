@@ -9,7 +9,6 @@
      const sampleGizzy = {
          gizzy_id: 'jnNKn7oMp',
          gizzy_name: 'new gizzy',
-         gizzy_price: 123,
          owned_by: '67Mmpk8,',//owned by user id
          gizzy_image: 'selectedfiles',
          gizzy_status: 'ready',
@@ -41,26 +40,27 @@
  
  }
  
- const parameterGizzyAdd = async(gizzyId,gizzyName,gizzyPrice,ownedBy,gizzyImage,gizzyStatus,generation,cooldownTime,
-                                 bio,hatched_by,birthday,lycanoType,attributesStrenth,attributesConstitution,attributesRestoration,
-                                 attributesCharisma,fatherId,motherId,children1) => {
+ const parameterGizzyAdd = async(gizzyId,gizzyName,ownedBy,gizzyImage,gizzyStatus,generation,breedable,cooldownIndex,
+                                 bio,hatched_by,birthday,characteristics_list,lycanoType,attributesStrenth,attributesConstitution,attributesRestoration,
+                                 attributesCharisma,fatherId,motherId,children_list) => {
  
      //added a new user 
      const parameterGizzy = {
          gizzy_id: gizzyId,
          gizzy_name: gizzyName,
-         gizzy_price: gizzyPrice,
          owned_by: ownedBy,//owned by user id
          gizzy_image: gizzyImage,
          gizzy_status: gizzyStatus,
          genaration: generation,
-         cooldown_time_hours: cooldownTime,
+         breedable: breedable,
+         cooldown_index: cooldownIndex,
          bio: bio,
-         hatched_by: hatched_by,//user id string,
+         hatched_by: hatched_by,//publicAddress,
          birthday: birthday,
+         characteristics: characteristics_list,
          lycano_type: lycanoType,
          attributes: {
-             strenth: attributesStrenth,
+             strength: attributesStrenth,
              constitution: attributesConstitution,
              restoration: attributesRestoration,
              charisma: attributesCharisma,
@@ -69,7 +69,7 @@
              fatherId: fatherId,
              motherId: motherId,
          },
-         children_list:[children1]
+         children_list:children_list
    
    }
    

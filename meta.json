@@ -1,0 +1,43 @@
+{
+    "generation": 0,
+    "created_at": "2017-12-07T06:54:46.000Z",
+    "image_url": "https://storage.googleapis.com/ck-kitty-image/0x06012c8cf97bead5deae237070f9587f8e7a266d/123606.svg",
+    "gene": "2701-4f69-7a3d-8e44-0001-0035-00f4-00f4-00f4-00f4-00f4-00f4-00f4-00f4-00f4-00f4-00f4-00f4-00f4-00f4-00f4-00f4-00f4-00f4-00f4-00f4-00f4-00f4-00f4-00f4",
+    "is_fancy": false,
+    "is_exclusive": false,
+    "fancy_type": null,
+    "attributes": [
+        {
+            "description": "orangesoda",
+            "type": null
+        },
+        {
+            "description": "simple",
+            "type": null
+        },
+        {
+            "description": "granitegrey",
+            "type": null
+        },
+        {
+            "description": "coffee",
+            "type": null
+        },
+        {
+            "description": "pouty",
+            "type": null
+        },
+        {
+            "description": "totesbasic",
+            "type": null
+        },
+        {
+            "description": "topaz",
+            "type": null
+        },
+        {
+            "description": "cymric",
+            "type": null
+        }
+    ]
+}

@@ -95,8 +95,7 @@ const claimGizzy = async (req, res) => {
             .then((email_list) => {
                 if ( email_list != null){
                     console.log("email list is not null")
-                    // make the blockchain call
-                    // remove from databae
+                    await addPromoGizzy(publicAddress);
                     EmailSchema.deleteMany({address:email})
                     .then(() => res.send("won the gizzy"))
                     

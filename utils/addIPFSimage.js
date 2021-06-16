@@ -6,7 +6,4 @@ const addIPFSimage = async(path) => {
     return cid.toString()
 }
 
-addIPFSimage('../uploads/assets/promo.png')
-.then((res) => console.log(res))
-
 module.exports = addIPFSimage
