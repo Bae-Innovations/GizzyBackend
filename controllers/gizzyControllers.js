@@ -86,22 +86,30 @@ const deleteGizzy = async  (req, res) => {
 
 const claimGizzy = async (req, res) => {
     UserSchema.findOne({publicAddress: res.locals.publicAddress})
-    .then((user) => {
+    .then(async (user) => {
         console.log("found the user inside the function")
         if (user == null){
             res.status(400).json({'message':'user not found'})
         } else {
             user.storyCompleted = true;
-            await user.save()
+            try{
+                await user.save()
+            } catch(exception){
+                logger.debug(exception)
+            }
             let email = user.email;
             EmailSchema.findOne({address:email})
             .then(async (email_list) => {
                 if ( email_list != null){
                     console.log("email list is not null")
                     addPromoGizzy(res.locals.publicAddress)
-                    .then(() => {
+                    .then(async () => {
                         user.gizzyCount = user.gizzyCount + 1
-                        await user.save()
+                        try {
+                            await user.save()
+                        } catch (exception) {
+                            logger.debug(exception)
+                        }
                         EmailSchema.deleteMany({address:email})
                         .then(() => res.json({won:true}))
                     }).catch((error) => console.log(error))
