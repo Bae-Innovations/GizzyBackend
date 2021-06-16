@@ -91,6 +91,8 @@ const claimGizzy = async (req, res) => {
         if (user == null){
             res.status(400).json({'message':'user not found'})
         } else {
+            user.storyCompleted = true;
+            await user.save()
             let email = user.email;
             EmailSchema.findOne({address:email})
             .then(async (email_list) => {
@@ -98,6 +100,8 @@ const claimGizzy = async (req, res) => {
                     console.log("email list is not null")
                     addPromoGizzy(res.locals.publicAddress)
                     .then(() => {
+                        user.gizzyCount = user.gizzyCount + 1
+                        await user.save()
                         EmailSchema.deleteMany({address:email})
                         .then(() => res.json({won:true}))
                     }).catch((error) => console.log(error))

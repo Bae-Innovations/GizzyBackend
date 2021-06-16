@@ -29,7 +29,11 @@ const UserSchema = mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  gizzyCoin: {
+  storyCompleted: {
+    type: Boolean,
+    default: false,
+  },
+  gizzyCount: {
     type: Number,
     default: 0,
   },

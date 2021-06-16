@@ -15,7 +15,7 @@ router.get('/', (req, res) => {
         res.status(400).json({ message: 'user not found' });
       } else {
         res.json({
-          username: result.username, email: result.email, publicAddress: result.publicAddress, isAdmin: result.isAdmin,
+          username: result.username, email: result.email, publicAddress: result.publicAddress, isAdmin: result.isAdmin, storyCompleted: result.storyCompleted, gizzyCount: result.gizzyCount
         });
       }
     });
