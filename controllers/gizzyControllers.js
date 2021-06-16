@@ -105,7 +105,7 @@ const claimGizzy = async (req, res) => {
                     
                 } else {
                     console.log("email list null")
-                    res.status(401).send("did not win any gizzy")
+                    res.status(200).send("did not win any gizzy")
                 }
             })
             
