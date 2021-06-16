@@ -9,6 +9,8 @@ const addGizzy = async (gizzyId, gizzyName, ownedBy, gizzyImage, gizzyStatus, ge
   bio, hatchedBy, createdAt, characteristics_list, lycanoType, attributesStrenth, attributesConstitution, attributesRestoration,
   attributesCharisma, sireId, matronId, childrenList) => {
 
+  logger.debug("entered addgizzy util func")
+
   const gizzyObj = {
     gizzyId: gizzyId,
     gizzyName: gizzyName,

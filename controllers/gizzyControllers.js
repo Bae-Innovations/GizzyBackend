@@ -118,11 +118,19 @@ const claimGizzy = async (req, res) => {
 }
 
 const ownedGizzy = async  (req, res) => {
-    res.json({
+    GizzySchema.find({ownedBy:res.locals.publicAddress}).then((result) => {
+        res.json(result)
+    });
+}
 
-    })
+const setGizzyName = async  (req, res) => {
+    gizzyId = req.body.gizzyId;
+    new_name = req.body.name;
+    GizzySchema.updateOne({ownedBy:res.locals.publicAddress, gizzyId:gizzyId}, {gizzyName:new_name}).then((result) => {
+        res.json({message:"gizzyName has been updated"})
+    }).catch((err) => logger.error(err))
 }
 
 module.exports = {
-    searchGizzy,postCollection,postGizzy, deleteGizzy, claimGizzy, ownedGizzy
+    searchGizzy,postCollection,postGizzy, deleteGizzy, claimGizzy, ownedGizzy, setGizzyName
 }

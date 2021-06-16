@@ -11,6 +11,7 @@ const {
   deleteGizzy,
   claimGizzy,
   ownedGizzy,
+  setGizzyName
 
 } = require('../controllers/gizzyControllers');
 
@@ -25,5 +26,7 @@ router.delete('/gizzy', deleteGizzy);
 router.post('/claim', claimGizzy);
 
 router.post('/owned', ownedGizzy);
+
+router.post('/set-name', setGizzyName);
 
 module.exports = router;

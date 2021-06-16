@@ -3,6 +3,7 @@ const Web3 = require('web3');
 const addIPFSimage = require('../utils/addIPFSimage');
 const addIPFSjson = require('../utils/addIPFSjson');
 const addGizzy = require('../utils/addGizzy')
+const logger = require('../logger/logger')
 
 proxyContractAddress = '0xC984F3C99816af6F5E2A55E815355e013b741F3e'
 
@@ -20,8 +21,9 @@ account0 = web3.eth.accounts.wallet['0']
 let contract = new web3.eth.Contract(abi.abi, proxyContractAddress);
 
 const addPromoGizzy = async (owner_addr) => {
-    image_hash = await addIPFSimage('../uploads/assets/promo.png')
-    console.log(image_hash)
+    //image_hash = await addIPFSimage('../uploads/assets/promo.png')
+    //console.log(image_hash)
+    image_hash = 'QmYdVS7vwQfisyZbuXUmVYiaFmrPZNQCJzyYo8GWFQukop'
     meta = {
         image: image_hash,
         breedable:false,
@@ -35,9 +37,10 @@ const addPromoGizzy = async (owner_addr) => {
             {name:'promo', type:true}
         ]
     }
-
+    logger.debug("before calling ipfs for meta")
     meta_hash = await addIPFSjson(meta)
 
+    logger.debug("before making web3 call")
     contract.methods.createPromoGizzy(owner_addr,false,meta_hash).send({from: account0.address, gas:'2000000'})
     .on('receipt', async function(receipt){
         let gizzyId = receipt.events.Birth.returnValues.kittyId
@@ -56,7 +59,7 @@ const addPromoGizzy = async (owner_addr) => {
             characteristics=[
                 {name:'promo', type:true}
             ],
-            lycano="Cyberpunk", 
+            lycano="Basic", 
             attributesStrength=3, 
             attributesConstituion=3,
             attributesRestoration=3,
@@ -65,7 +68,7 @@ const addPromoGizzy = async (owner_addr) => {
             matronId=0,
             childrenList=[]
         )
-        console.log(receipt)
+        logger.info(receipt)
         return newGizzy
     })
 }
