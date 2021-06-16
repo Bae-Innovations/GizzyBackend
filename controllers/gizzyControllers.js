@@ -99,13 +99,13 @@ const claimGizzy = async (req, res) => {
                     addPromoGizzy(res.locals.publicAddress)
                     .then(() => {
                         EmailSchema.deleteMany({address:email})
-                        .then(() => res.send("won the gizzy"))
+                        .then(() => res.json({won:true}))
                     }).catch((error) => console.log(error))
                     
                     
                 } else {
                     console.log("email list null")
-                    res.status(200).send("did not win any gizzy")
+                    res.status(200).json({won:false})
                 }
             })
             
