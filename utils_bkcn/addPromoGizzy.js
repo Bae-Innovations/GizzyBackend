@@ -5,12 +5,12 @@ const addIPFSjson = require('../utils/addIPFSjson');
 const addGizzy = require('../utils/addGizzy')
 const logger = require('../logger/logger')
 
-proxyContractAddress = '0xC984F3C99816af6F5E2A55E815355e013b741F3e'
+proxyContractAddress = process.env.PROXY_CONTRACT_ADDRESS
 
-acc1_priv = '062705884027f5d3ad8ec35fefe9be6ccf5eeacaf299d168d774e462fa1f99c8'
-acc1_addr = '0x146b9142fdFB6C2fF76ceD376961D7C308715F65'
+acc1_priv = process.env.PRIVATE_KEY
+acc1_addr = process.env.PUBLIC_ADDRESS
 
-const web3 = new Web3('https://data-seed-prebsc-1-s1.binance.org:8545');
+const web3 = new Web3(process.env.BLOCKCHAIN_HTTP_URL);
 web3.eth.accounts.wallet.add({
     privateKey: acc1_priv,
     address: acc1_addr
@@ -66,13 +66,12 @@ const addPromoGizzy = async (owner_addr) => {
             attributesCharisma=3,
             sireId=0,
             matronId=0,
-            childrenList=[]
+            childrenList=[],
+            genes="null"
         )
         logger.info(receipt)
         return newGizzy
     })
 }
-
-addPromoGizzy('0x146b9142fdFB6C2fF76ceD376961D7C308715F65')
 
 module.exports = addPromoGizzy
