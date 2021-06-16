@@ -1,9 +1,10 @@
 const { create, globSource } = require('ipfs-http-client');
-const client = create('https://ipfs.infura.io:5001')
 
-const addIPFSimage = async(path) => {
-    const { cid } = await client.add(globSource(path));
-    return cid.toString()
-}
+const client = create('https://ipfs.infura.io:5001');
 
-module.exports = addIPFSimage
+const addIPFSimage = async (path) => {
+  const { cid } = await client.add(globSource(path));
+  return cid.toString();
+};
+
+module.exports = addIPFSimage;

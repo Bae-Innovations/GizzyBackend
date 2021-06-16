@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-//email list
+// email list
 const EmailSchema = mongoose.Schema({
   address: {
     type: String,

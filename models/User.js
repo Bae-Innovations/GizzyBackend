@@ -6,33 +6,33 @@ const UserSchema = mongoose.Schema({
   username: {
     type: String,
     unique: true,
-    required: true
+    required: true,
   },
   email: {
     type: String,
     unique: true,
-    required: true
+    required: true,
   },
   publicAddress: {
     type: String,
     lowercase: true,
     required: true,
-    unique:true
+    unique: true,
   },
   nonce: {
     type: String,
   },
   bearerToken: {
-      type: String
+    type: String,
   },
   isAdmin: {
     type: Boolean,
-    default: false
+    default: false,
   },
   gizzyCoin: {
     type: Number,
-    default: 0    
-  }
+    default: 0,
+  },
   // liked: {
   //    type:
   // }

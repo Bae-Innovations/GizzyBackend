@@ -5,14 +5,14 @@ const router = express.Router();
 router.use(authenticateToken);
 
 const {
-    searchGizzy,
-    postCollection,
-    postGizzy,
-    deleteGizzy,
-    claimGizzy,
-    ownedGizzy
+  searchGizzy,
+  postCollection,
+  postGizzy,
+  deleteGizzy,
+  claimGizzy,
+  ownedGizzy,
 
-} = require('../controllers/gizzyControllers')
+} = require('../controllers/gizzyControllers');
 
 router.get('/search', searchGizzy);
 

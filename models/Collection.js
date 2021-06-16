@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 
-//collection
+// collection
 const CollectionSchema = mongoose.Schema({
   name: {
     type: String,
     required: true,
   },
-  gizzyIdArray: [Number]
+  gizzyIdArray: [Number],
 });
 
 module.exports = mongoose.model('Collections', CollectionSchema);

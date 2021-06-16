@@ -2,7 +2,7 @@ const abi = require('./GizzyBase.json')
 const Web3 = require('web3');
 const addIPFSimage = require('../utils/addIPFSimage');
 const addIPFSjson = require('../utils/addIPFSjson');
-const addSampleGizzy, addGizzy = require('../utils/addGizzy')
+const addGizzy = require('../utils/addGizzy')
 
 proxyContractAddress = '0xC984F3C99816af6F5E2A55E815355e013b741F3e'
 
@@ -19,10 +19,6 @@ account0 = web3.eth.accounts.wallet['0']
 
 let contract = new web3.eth.Contract(abi.abi, proxyContractAddress);
 
-// send the image to ipfs
-// use image hash to create the meta data and send to ipfs
-// use the ipfs url to make a web3 call to create a promo gizzy for the specified address
-
 const addPromoGizzy = async (owner_addr) => {
     image_hash = await addIPFSimage('../uploads/assets/promo.png')
     console.log(image_hash)
@@ -35,21 +31,45 @@ const addPromoGizzy = async (owner_addr) => {
             restoration: 3,
             charisma: 3
         },
-        characteristics:{
-            'promo':true
-        }
+        characteristics:[
+            {name:'promo', type:true}
+        ]
     }
 
     meta_hash = await addIPFSjson(meta)
 
     contract.methods.createPromoGizzy(owner_addr,false,meta_hash).send({from: account0.address, gas:'2000000'})
-    .on('receipt', function(receipt){
-        let gizzyId = recept.returnValues['gizzyId']
-        addGizzy(
-            gizzyId,"GIZZY#"+gizzyId.toString(),acc1_addr,image_hash,"unbreedable",0,false,0,"I am one of the few rare promo gizzies!", acc1_addr, new Date().getDate(), "Cyberpunk", {strength:3, constituion:3, restoration:3, charisma:3},parents:{fatherId:0, motherId:0},[]
+    .on('receipt', async function(receipt){
+        let gizzyId = receipt.events.Birth.returnValues.kittyId
+        newGizzy = await addGizzy(
+            gizzyId=gizzyId,
+            gizzyName="GIZZY#"+gizzyId.toString(),
+            ownedBy=owner_addr,
+            gizzyImage=image_hash,
+            gizzyStatus="unbreedable",
+            generation=0,
+            breedable=false,
+            cooldownIndex=0,
+            bio="I am one of the few rare promo gizzies!", 
+            hatchedBy=acc1_addr, 
+            createdAt=new Date().getDate(),
+            characteristics=[
+                {name:'promo', type:true}
+            ],
+            lycano="Cyberpunk", 
+            attributesStrength=3, 
+            attributesConstituion=3,
+            attributesRestoration=3,
+            attributesCharisma=3,
+            sireId=0,
+            matronId=0,
+            childrenList=[]
         )
         console.log(receipt)
+        return newGizzy
     })
 }
+
+addPromoGizzy('0x146b9142fdFB6C2fF76ceD376961D7C308715F65')
 
 module.exports = addPromoGizzy

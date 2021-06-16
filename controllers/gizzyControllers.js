@@ -4,6 +4,7 @@ const CollectionSchema = require('../models/Collection');
 const UserSchema = require('../models/User');
 const GizzySchema = require('../models/Gizzy');
 const EmailSchema = require('../models/Email');
+const addPromoGizzy = require('../utils_bkcn/addPromoGizzy')
 
 
 const ipfs = require("nano-ipfs-store").at("https://ipfs.infura.io:5001");
@@ -92,12 +93,15 @@ const claimGizzy = async (req, res) => {
         } else {
             let email = user.email;
             EmailSchema.findOne({address:email})
-            .then((email_list) => {
+            .then(async (email_list) => {
                 if ( email_list != null){
                     console.log("email list is not null")
-                    await addPromoGizzy(publicAddress);
-                    EmailSchema.deleteMany({address:email})
-                    .then(() => res.send("won the gizzy"))
+                    addPromoGizzy(res.locals.publicAddress)
+                    .then(() => {
+                        EmailSchema.deleteMany({address:email})
+                        .then(() => res.send("won the gizzy"))
+                    }).catch((error) => console.log(error))
+                    
                     
                 } else {
                     console.log("email list null")
