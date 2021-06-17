@@ -5,8 +5,9 @@ const UserSchema = require('../models/User');
 const GizzySchema = require('../models/Gizzy');
 const EmailSchema = require('../models/Email');
 const EggSchema = require('../models/Egg');
-//const addPromoGizzy = require('../utils_bkcn/addPromoGizzy');
+const addPromoGizzy = require('../utils_bkcn/addPromoGizzy');
 const addGizzyEgg = require('../utils_bkcn/addGizzyEgg');
+const amountOfGizzy = require('../utils_bkcn/amountOfGizzy');
 
 
 const ipfs = require("nano-ipfs-store").at("https://ipfs.infura.io:5001");
@@ -153,8 +154,25 @@ const setGizzyName = async  (req, res) => {
 const boughtEgg = async (req, res) => {
     gizzyId = req.body.gizzyId;
     publicAddress = res.locals.publicAddress;
+    promo_gizzy_alert = false
     // bkcn check to make sure owner actually owns the egg
     // check if owner is eligible for promo gizzy
+    UserSchema.findOne({publicAddress: res.locals.publicAddress})
+    .then((user) => {
+        amountOfGizzy(publicAddress)
+        .then((amount) => {
+            if (amount >= 2 && user.earlyAdopter != true){
+                user.earlyAdopter = true
+                user.save()
+                .then((res) => {
+                    if (GizzySchema.find().length){
+                        addPromoGizzy(publicAddress)
+                        promo_gizzy_alert = true
+                    }
+                })
+            }
+        })
+    })
     
     console.log(gizzyId)
     console.log(publicAddress)
@@ -162,7 +180,7 @@ const boughtEgg = async (req, res) => {
         ownedBy:publicAddress,
         gizzyId:gizzyId
     }).save()
-    .then((result) => res.json({"message":"egg has been saved to database"}))
+    .then((result) => res.json({"message":"egg has been saved to database", "promo_gizzy_alert":promo_gizzy_alert}))
     .catch((err) => logger.error(err));
 }
 
