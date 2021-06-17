@@ -169,9 +169,17 @@ const boughtEgg = async (req, res) => {
                         addPromoGizzy(publicAddress)
                         promo_gizzy_alert = true
                     }
+                }).catch((err) => {
+                    logger.error(err)
+                    res.status(400).send('an error occured')
                 })
             }
+        }).catch((err) => {
+            logger.error(err)
+            res.status(400).send('an error occured')
         })
+    }).catch((err) => {
+        logger.status(400).error(err)
     })
     
     console.log(gizzyId)
