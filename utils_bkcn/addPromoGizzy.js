@@ -5,7 +5,7 @@ const addIPFSjson = require('../utils/addIPFSjson');
 const addGizzy = require('../utils/addGizzy')
 const logger = require('../logger/logger')
 
-proxyContractAddress = '0xC984F3C99816af6F5E2A55E815355e013b741F3e'
+proxyContractAddress = '0x81F6375AFba49789C37527c3Be87dc1fEA7A8Fb4'
 
 acc1_priv = '062705884027f5d3ad8ec35fefe9be6ccf5eeacaf299d168d774e462fa1f99c8'
 acc1_addr = '0x146b9142fdFB6C2fF76ceD376961D7C308715F65'
