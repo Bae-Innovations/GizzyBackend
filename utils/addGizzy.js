@@ -7,7 +7,7 @@ const logger = require('../logger/logger');
 
 const addGizzy = async (gizzyId, gizzyName, ownedBy, gizzyImage, gizzyStatus, generation, breedable, cooldownIndex,
   bio, hatchedBy, createdAt, characteristics_list, lycanoType, attributesStrenth, attributesConstitution, attributesRestoration,
-  attributesCharisma, sireId, matronId, childrenList) => {
+  attributesCharisma, sireId, matronId, childrenList, genes) => {
 
   logger.debug("entered addgizzy util func")
 
@@ -36,6 +36,7 @@ const addGizzy = async (gizzyId, gizzyName, ownedBy, gizzyImage, gizzyStatus, ge
       matronId,
     },
     childrenList: childrenList,
+    genes: genes
 
   };
   new GizzySchema(gizzyObj).save()

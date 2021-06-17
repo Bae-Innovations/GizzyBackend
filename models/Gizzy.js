@@ -50,6 +50,7 @@ const GizzySchema = mongoose.Schema({
     matronId: requiredString,
   },
   children_list: [Number], // list of ids
+  genes: requiredString
 });
 
 module.exports = mongoose.model('Gizzies', GizzySchema);

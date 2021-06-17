@@ -8,6 +8,12 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    env:
+      PORT: 8080
+      PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+      PUBLIC_ADDRESS: ${{ secrets.PUBLIC_ADDRESS }}
+      BLOCKCHAIN_HTTP_URL: ${{ secrets.BLOCKCHAIN_HTTP_URL }}
+      PROXY_CONTRACT_ADDRESS: ${{ secrets.PROXY_CONTRACT_ADDRESS }}
 
     strategy:
       matrix:
