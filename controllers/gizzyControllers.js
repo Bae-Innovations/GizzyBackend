@@ -157,39 +157,30 @@ const boughtEgg = async (req, res) => {
     promo_gizzy_alert = false
     // bkcn check to make sure owner actually owns the egg
     // check if owner is eligible for promo gizzy
-    UserSchema.findOne({publicAddress: res.locals.publicAddress})
-    .then((user) => {
-        amountOfGizzy(publicAddress)
-        .then((amount) => {
-            if (amount >= 2 && user.earlyAdopter != true){
-                user.earlyAdopter = true
-                user.save()
-                .then((res) => {
-                    if (GizzySchema.find().length){
-                        addPromoGizzy(publicAddress)
-                        promo_gizzy_alert = true
-                    }
-                }).catch((err) => {
-                    logger.error(err)
-                    res.status(400).send('an error occured')
-                })
-            }
-        }).catch((err) => {
-            logger.error(err)
-            res.status(400).send('an error occured')
+    try{
+        user = await UserSchema.findOne({publicAddress: res.locals.publicAddress})
+        amount = await amountOfGizzy(publicAddress)
+        if (amount >= 2 && user.earlyAdopter != true){
+            logger.debug("entered if statement: user is supposed to get promo gizzy")
+            user.earlyAdopter = true;
+            await user.save();
+            await addPromoGizzy(publicAddress)
+            promo_gizzy_alert = true
+
+            egg = new EggSchema({
+                ownedBy:publicAddress,
+                gizzyId:gizzyId
+            })
+        }
+        await egg.save()
+        res.json({
+            'message': 'egg has been saved to database',
+            'promo_gizzy_alert': promo_gizzy_alert
         })
-    }).catch((err) => {
-        logger.status(400).error(err)
-    })
-    
-    console.log(gizzyId)
-    console.log(publicAddress)
-    new EggSchema({
-        ownedBy:publicAddress,
-        gizzyId:gizzyId
-    }).save()
-    .then((result) => res.json({"message":"egg has been saved to database", "promo_gizzy_alert":promo_gizzy_alert}))
-    .catch((err) => logger.error(err));
+    }catch(err){
+        logger.error(err)
+        res.send("an error occured. check debugger")
+    }
 }
 
 const ownedEggs = async (req, res) => {
