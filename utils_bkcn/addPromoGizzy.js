@@ -67,8 +67,4 @@ const addPromoGizzy = async (owner_addr) => {
     })
 }
 
-addPromoGizzy('0x146b9142fdFB6C2fF76ceD376961D7C308715F65')
-.then((res) => console.log('in the res'))
-.catch((err) => console.log(err))
-
 module.exports = addPromoGizzy
