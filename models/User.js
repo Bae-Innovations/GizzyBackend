@@ -37,6 +37,10 @@ const UserSchema = mongoose.Schema({
     type: Number,
     default: 0,
   },
+  earlyAdopter: {
+    type: Boolean,
+    default: false
+  }
   // liked: {
   //    type:
   // }
