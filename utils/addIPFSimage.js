@@ -7,5 +7,8 @@ const addIPFSimage = async (path) => {
   return cid.toString();
 };
 
+addIPFSimage()
+.then((result) => console.log(result))
+.catch((err) => console.log(err))
 
 module.exports = addIPFSimage;

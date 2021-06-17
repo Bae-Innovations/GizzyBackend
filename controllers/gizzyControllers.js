@@ -148,14 +148,26 @@ const setGizzyName = async  (req, res) => {
 const boughtEgg = async (req, res) => {
     gizzyId = req.body.gizzyId;
     publicAddress = res.locals.publicAddress;
+    // bkcn check to make sure owner actually owns the egg
+    // check if owner is eligible for promo gizzy
+    console.log(gizzyId)
+    console.log(publicAddress)
     new EggSchema({
-        gizzyId:gizzyId,
-        ownerBy:publicAddress
+        ownedBy:publicAddress,
+        gizzyId:gizzyId
     }).save()
-    .then((res) => res.send("egg has been saved to database"))
+    .then((result) => res.json({"message":"egg has been saved to database"}))
     .catch((err) => logger.error(err));
 }
 
+const ownedEggs = async (req, res) => {
+    publicAddress = res.locals.publicAddress;
+    EggSchema.find({ownedBy:publicAddress})
+    .then((result) => {
+        res.json(result)
+    });
+}
+
 module.exports = {
-    searchGizzy,postCollection,postGizzy, deleteGizzy, claimGizzy, ownedGizzy, setGizzyName, boughtEgg
+    searchGizzy,postCollection,postGizzy, deleteGizzy, claimGizzy, ownedGizzy, setGizzyName, boughtEgg, ownedEggs
 }
