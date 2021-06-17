@@ -4,7 +4,9 @@ const CollectionSchema = require('../models/Collection');
 const UserSchema = require('../models/User');
 const GizzySchema = require('../models/Gizzy');
 const EmailSchema = require('../models/Email');
-const addPromoGizzy = require('../utils_bkcn/addPromoGizzy')
+const EggSchema = require('../models/Egg');
+//const addPromoGizzy = require('../utils_bkcn/addPromoGizzy');
+const addGizzyEgg = require('../utils_bkcn/addGizzyEgg');
 
 
 const ipfs = require("nano-ipfs-store").at("https://ipfs.infura.io:5001");
@@ -102,7 +104,7 @@ const claimGizzy = async (req, res) => {
             .then(async (email_list) => {
                 if ( email_list != null){
                     console.log("email list is not null")
-                    addPromoGizzy(res.locals.publicAddress)
+                    addGizzyEgg(res.locals.publicAddress)
                     .then(async () => {
                         user.gizzyCount = user.gizzyCount + 1
                         try {
@@ -143,6 +145,17 @@ const setGizzyName = async  (req, res) => {
     }).catch((err) => logger.error(err))
 }
 
+const boughtEgg = async (req, res) => {
+    gizzyId = req.body.gizzyId;
+    publicAddress = res.locals.publicAddress;
+    new EggSchema({
+        gizzyId:gizzyId,
+        ownerBy:publicAddress
+    }).save()
+    .then((res) => res.send("egg has been saved to database"))
+    .catch((err) => logger.error(err));
+}
+
 module.exports = {
-    searchGizzy,postCollection,postGizzy, deleteGizzy, claimGizzy, ownedGizzy, setGizzyName
+    searchGizzy,postCollection,postGizzy, deleteGizzy, claimGizzy, ownedGizzy, setGizzyName, boughtEgg
 }

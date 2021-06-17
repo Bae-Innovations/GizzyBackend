@@ -2,7 +2,7 @@ const express = require('express');
 const authenticateToken = require('../middlewares/authenticateToken');
 
 const router = express.Router();
-router.use(authenticateToken);
+//router.use(authenticateToken);
 
 const {
   searchGizzy,
@@ -11,7 +11,8 @@ const {
   deleteGizzy,
   claimGizzy,
   ownedGizzy,
-  setGizzyName
+  setGizzyName,
+  boughtEgg
 
 } = require('../controllers/gizzyControllers');
 
@@ -28,5 +29,7 @@ router.post('/claim', claimGizzy);
 router.post('/owned', ownedGizzy);
 
 router.post('/set-name', setGizzyName);
+
+router.post('/bought-egg', boughtEgg);
 
 module.exports = router;
