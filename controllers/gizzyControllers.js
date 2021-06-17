@@ -89,7 +89,7 @@ const deleteGizzy = async  (req, res) => {
 const claimGizzy = async (req, res) => {
     UserSchema.findOne({publicAddress: res.locals.publicAddress})
     .then(async (user) => {
-        console.log("found the user inside the function")
+        logger.debug("found the user inside the function")
         if (user == null){
             res.status(400).json({'message':'user not found'})
         } else {
@@ -98,12 +98,13 @@ const claimGizzy = async (req, res) => {
                 await user.save()
             } catch(exception){
                 logger.debug(exception)
+                res.status(400).send("an error occured when trying to save user")
             }
             let email = user.email;
             EmailSchema.findOne({address:email})
             .then(async (email_list) => {
                 if ( email_list != null){
-                    console.log("email list is not null")
+                    logger.debug("email list is not null")
                     addGizzyEgg(res.locals.publicAddress)
                     .then(async () => {
                         user.gizzyCount = user.gizzyCount + 1
@@ -114,13 +115,17 @@ const claimGizzy = async (req, res) => {
                         }
                         EmailSchema.deleteMany({address:email})
                         .then(() => res.json({won:true}))
-                    }).catch((error) => console.log(error))
+                    }).catch((error) => logger.error(error))
                     
                     
                 } else {
                     console.log("email list null")
                     res.status(200).json({won:false})
                 }
+            })
+            .catch((err) => {
+                logger.error(err)
+                res.status(400).send("an error occured try to get list from ")
             })
             
         }
@@ -150,6 +155,7 @@ const boughtEgg = async (req, res) => {
     publicAddress = res.locals.publicAddress;
     // bkcn check to make sure owner actually owns the egg
     // check if owner is eligible for promo gizzy
+    
     console.log(gizzyId)
     console.log(publicAddress)
     new EggSchema({
