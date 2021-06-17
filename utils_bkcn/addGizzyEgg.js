@@ -46,7 +46,7 @@ const addGizzyEgg = async (owner_addr) => {
         .then((result) => {
             logger.info(result)
             logger.info(receipt)
-            return newEgg
+            return result
         })
         .catch((err) => logger.error(err))
         
