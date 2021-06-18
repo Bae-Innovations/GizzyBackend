@@ -156,7 +156,7 @@ const boughtEgg = async (req, res) => {
     publicAddress = res.locals.publicAddress;
     promo_gizzy_alert = false
     logger.debug('inside the bought egg endpoint')
-    logger.debug(giizyId)
+    logger.debug(gizzyId)
     logger.debug(publicAddress)
     // bkcn check to make sure owner actually owns the egg
     // check if owner is eligible for promo gizzy
