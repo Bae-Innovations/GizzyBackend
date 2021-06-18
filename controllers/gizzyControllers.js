@@ -166,12 +166,12 @@ const boughtEgg = async (req, res) => {
             await user.save();
             await addPromoGizzy(publicAddress)
             promo_gizzy_alert = true
-
-            egg = new EggSchema({
-                ownedBy:publicAddress,
-                gizzyId:gizzyId
-            })
         }
+
+        egg = new EggSchema({
+            ownedBy:publicAddress,
+            gizzyId:gizzyId
+        })
         await egg.save()
         res.json({
             'message': 'egg has been saved to database',
