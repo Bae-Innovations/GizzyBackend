@@ -6,17 +6,16 @@ const addGizzy = require('../utils/addGizzy')
 const logger = require('../logger/logger')
 
 
-
 const addPromoGizzy = async (owner_addr) => {
     //image_hash = await addIPFSimage('../uploads/assets/promo.png')
     //console.log(image_hash)
 
-    proxyContractAddress = '0x81F6375AFba49789C37527c3Be87dc1fEA7A8Fb4'
+    proxyContractAddress = process.env.PROXY_CONTRACT_ADDRESS
 
-    acc1_priv = '4224775a5dbc81ad118d36053c6d3426e8dcbb881aea1198ae77edb9bf4fabfc'
-    acc1_addr = '0x47Dc4a38DECC4f094be1Ca3F167Da4171130be8D'
+    acc1_priv = process.env.PRIVATE_KEY
+    acc1_addr = process.env.PUBLIC_ADDRESS
 
-    const web3 = new Web3('https://data-seed-prebsc-1-s1.binance.org:8545');
+    const web3 = new Web3(process.env.BLOCKCHAIN_HTTP_URL);
     web3.eth.accounts.wallet.add({
         privateKey: acc1_priv,
         address: acc1_addr
