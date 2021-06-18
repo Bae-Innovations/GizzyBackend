@@ -15,7 +15,7 @@ const app = express();
 const port = process.env.PORT || 8001;
 
 // connecting to database
-mongoose.connect('mongodb+srv://gizzy:password@1234@cluster0.mujp0.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
+mongoose.connect(process.env.DB_URL,
   { useNewUrlParser: true, useUnifiedTopology: true },
   () => logger.info('connected to DB!'));
 
