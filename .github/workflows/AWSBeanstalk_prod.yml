@@ -1,11 +1,8 @@
-# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
-
-name: CI
+name: CD
 
 on:
-  pull_request:
-    branches: [ master, staging ]
+  push:
+    branches: master
 
 jobs:
   build:
@@ -34,3 +31,20 @@ jobs:
       run: npm run build --if-present
     - name: Run tests
       run: npm test
+    - name: Generate deployment package
+      run: zip -r deploy.zip . -x '*.git*'
+    - name: Set UUID
+      id: generate-uuid
+      uses: filipstefansson/uuid-action@v1
+      with:
+        name: ${{ github.sha }}
+    - name: Deploy to EB
+      uses: einaregilsson/beanstalk-deploy@v14
+      with:
+        aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        application_name: Gizzy
+        environment_name: Gizzy-env
+        version_label: ${{ steps.generate-uuid.outputs.uuid }}
+        region: us-east-1
+        deployment_package: deploy.zip
