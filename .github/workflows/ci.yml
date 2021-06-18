@@ -17,6 +17,7 @@ jobs:
       PUBLIC_ADDRESS: ${{ secrets.PUBLIC_ADDRESS }}
       BLOCKCHAIN_HTTP_URL: ${{ secrets.BLOCKCHAIN_HTTP_URL }}
       PROXY_CONTRACT_ADDRESS: ${{ secrets.PROXY_CONTRACT_ADDRESS }}
+      DB_URL: ${{ secrets.DB_URL }}
 
     strategy:
       matrix:
