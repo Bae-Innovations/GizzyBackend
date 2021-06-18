@@ -160,7 +160,7 @@ const boughtEgg = async (req, res) => {
     try{
         user = await UserSchema.findOne({publicAddress: res.locals.publicAddress})
         amount = await amountOfGizzy(publicAddress)
-        if (amount >= 2 && user.earlyAdopter != true){
+        if (amount >= 2 && user?.earlyAdopter != true){
             logger.debug("entered if statement: user is supposed to get promo gizzy")
             user.earlyAdopter = true;
             await user.save();
