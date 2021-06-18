@@ -24,5 +24,4 @@ const amountOfGizzy = function(){
     })
 }
 
-
-module.exports = addPromoGizzy
+module.exports = amountOfGizzy
