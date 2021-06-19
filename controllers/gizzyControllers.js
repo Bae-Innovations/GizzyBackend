@@ -171,6 +171,7 @@ const boughtEgg = async (req, res) => {
             logger.debug("entered if statement: user is supposed to get promo gizzy")
             user.earlyAdopter = true;
             await user.save();
+            logger.debug("WILL CALL THE PROMO GIZZY NOW")
             await addPromoGizzy(publicAddress)
             promo_gizzy_alert = true
         }

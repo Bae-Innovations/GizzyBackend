@@ -10,7 +10,7 @@ const GizzySchema = require('../models/Gizzy')
 const addPromoGizzy = async (owner_addr) => {
     //image_hash = await addIPFSimage('../uploads/assets/promo.png')
     //console.log(image_hash)
-
+    logger.debug(("ENTERED ADD PROMO GIZZY"))
     proxyContractAddress = process.env.PROXY_CONTRACT_ADDRESS
 
     acc1_priv = process.env.PRIVATE_KEY
@@ -28,10 +28,10 @@ const addPromoGizzy = async (owner_addr) => {
 
     meta_hash = 'https://ipfs.io/ipfs/QmdyCnkcEyWzEkiqi6sHbdMxH9B3c6qhRrpyKBLtE1QLj6'
     console.log(meta_hash)
-
+    logger.debug("BEFORE ENTERING THE TRY CALL")
     try {
         amount = await GizzySchema.find({gizzyImage:'https://ipfs.io/ipfs/QmQkQBnewjrFox48QEgKJHW6DLtmk4XiZ2Hg5FrtsY4VAw'})
-        if (amount < 1000){
+        if (amount.length < 1000){
             logger.debug("before making web3 call")
             contract.methods.createPromoGizzy(owner_addr,false,meta_hash).send({from: account0.address, gas:'2000000'})
             .on('receipt', async function(receipt){
