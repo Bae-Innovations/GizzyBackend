@@ -30,7 +30,7 @@ const addPromoGizzy = async (owner_addr) => {
     console.log(meta_hash)
 
     try {
-        amount = GizzySchema.find({gizzyImage:'https://ipfs.io/ipfs/QmQkQBnewjrFox48QEgKJHW6DLtmk4XiZ2Hg5FrtsY4VAw'})
+        amount = await GizzySchema.find({gizzyImage:'https://ipfs.io/ipfs/QmQkQBnewjrFox48QEgKJHW6DLtmk4XiZ2Hg5FrtsY4VAw'})
         if (amount < 1000){
             logger.debug("before making web3 call")
             contract.methods.createPromoGizzy(owner_addr,false,meta_hash).send({from: account0.address, gas:'2000000'})
