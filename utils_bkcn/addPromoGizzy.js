@@ -4,6 +4,7 @@ const Web3 = require('web3');
 //const addIPFSjson = require('../utils/addIPFSjson');
 const addGizzy = require('../utils/addGizzy')
 const logger = require('../logger/logger')
+const GizzySchema = require('../models/Gizzy')
 
 
 const addPromoGizzy = async (owner_addr) => {
@@ -28,42 +29,57 @@ const addPromoGizzy = async (owner_addr) => {
     meta_hash = 'https://ipfs.io/ipfs/QmdyCnkcEyWzEkiqi6sHbdMxH9B3c6qhRrpyKBLtE1QLj6'
     console.log(meta_hash)
 
-    logger.debug("before making web3 call")
-    contract.methods.createPromoGizzy(owner_addr,false,meta_hash).send({from: account0.address, gas:'2000000'})
-    .on('receipt', async function(receipt){
-        console.log(receipt)
-        let gizzyId = receipt.events.Birth.returnValues.gizzyId
-        newGizzy = await addGizzy(
-            gizzyId=gizzyId,
-            gizzyName="GIZZY#"+gizzyId.toString(),
-            ownedBy=owner_addr,
-            gizzyImage='https://ipfs.io/ipfs/QmQkQBnewjrFox48QEgKJHW6DLtmk4XiZ2Hg5FrtsY4VAw',
-            gizzyStatus="unbreedable",
-            generation=0,
-            breedable=false,
-            cooldownIndex=0,
-            bio="I am one of the few rare promo gizzies!", 
-            hatchedBy=acc1_addr, 
-            createdAt=new Date().getDate(),
-            characteristics=[
-                {name:'promo', type:true}
-            ],
-            lycano="Basic", 
-            attributesStrength=3, 
-            attributesConstituion=3,
-            attributesRestoration=3,
-            attributesCharisma=3,
-            sireId=0,
-            matronId=0,
-            childrenList=[],
-            genes="null"
-        )
-        logger.info(receipt)
-        return newGizzy
-    })
-    .on('error', async function(error){
+    try {
+        amount = GizzySchema.find({gizzyImage:'https://ipfs.io/ipfs/QmQkQBnewjrFox48QEgKJHW6DLtmk4XiZ2Hg5FrtsY4VAw'})
+        if (amount < 1000){
+            logger.debug("before making web3 call")
+            contract.methods.createPromoGizzy(owner_addr,false,meta_hash).send({from: account0.address, gas:'2000000'})
+            .on('receipt', async function(receipt){
+                console.log(receipt)
+                let gizzyId = receipt.events.Birth.returnValues.gizzyId
+                newGizzy = await addGizzy(
+                    gizzyId=gizzyId,
+                    gizzyName="GIZZY#"+gizzyId.toString(),
+                    ownedBy=owner_addr,
+                    gizzyImage='https://ipfs.io/ipfs/QmQkQBnewjrFox48QEgKJHW6DLtmk4XiZ2Hg5FrtsY4VAw',
+                    gizzyStatus="unbreedable",
+                    generation=0,
+                    breedable=false,
+                    cooldownIndex=0,
+                    bio="I am one of the few rare promo gizzies!", 
+                    hatchedBy=acc1_addr, 
+                    createdAt=new Date().getDate(),
+                    characteristics=[
+                        {name:'promo', type:true}
+                    ],
+                    lycano="Basic", 
+                    attributesStrength=3, 
+                    attributesConstituion=3,
+                    attributesRestoration=3,
+                    attributesCharisma=3,
+                    sireId=0,
+                    matronId=0,
+                    childrenList=[],
+                    genes="null"
+                )
+                logger.info(receipt)
+                return newGizzy
+            })
+            .on('error', async function(error){
+                logger.error(error)
+            })
+        }else{
+            return 0
+        }
+    }catch (error) {
         logger.error(error)
-    })
+    }
+
+    //logger.info("AMOUNT OF PROMO GIZZY IS "+ Object.keys(number_of_promos))
+
+    
 }
+
+addPromoGizzy('0x146b9142fdFB6C2fF76ceD376961D7C308715F65').then((res) => console.log(res))
 
 module.exports = addPromoGizzy
