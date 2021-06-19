@@ -1,8 +1,7 @@
 const abi = require('./GizzyBase.json')
 const Web3 = require('web3');
-const logger = require('../logger/logger');
 
-const amountOfGizzy = async function (publicAddress){
+const amountOfGizzy = function(){
     proxyContractAddress = process.env.PROXY_CONTRACT_ADDRESS
 
     acc1_priv = process.env.PRIVATE_KEY
@@ -18,14 +17,11 @@ const amountOfGizzy = async function (publicAddress){
     
     let contract = new web3.eth.Contract(abi.abi, proxyContractAddress);
     
-    try {
-        result = await contract.methods.balanceOf(publicAddress).call({from: account0.address})
-        logger.info(result)
-        return result
-    } catch(error) {
-        logger.error(error)
-    }
-    
+    contract.methods.balanceOf(acc1_addr).call({from: account0.address})
+    .then((res) => {
+        console.log(res)
+        return res
+    })
 }
 
 module.exports = amountOfGizzy

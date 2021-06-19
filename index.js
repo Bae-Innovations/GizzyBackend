@@ -51,18 +51,18 @@ app.use('/minting', require('./routes/minting'));
 app.use('/admin', require('./routes/admin'));
 // app.use('/collection', require('./routes/collection'));
 
-app.get('/delete', (async (req, res) => {
-  schema = require('./models/Egg')
-  schema.find({ownedBy:"0x471eCCb11dB0457c2dce4f10C66644268062CAf7"})
-  .then(async (asd) => {
-    asd.forEach(async (item) => {
-      await item.update({ownedBy:'null'})
+// app.get('/delete', (async (req, res) => {
+//   schema = require('./models/Egg')
+//   schema.find({ownedBy:"0x471eCCb11dB0457c2dce4f10C66644268062CAf7"})
+//   .then(async (asd) => {
+//     asd.forEach(async (item) => {
+//       await item.update({ownedBy:'null'})
       
-    })
-  })
+//     })
+//   })
   
-  res.send('done')
-}));
+//   res.send('done')
+// }));
 
 app.get('*', (req, res) => {
   logger.info('user route');

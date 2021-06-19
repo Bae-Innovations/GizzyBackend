@@ -156,16 +156,18 @@ const boughtEgg = async (req, res) => {
     publicAddress = res.locals.publicAddress;
     promo_gizzy_alert = false
     logger.debug('inside the bought egg endpoint')
-    logger.debug(gizzyId)
-    logger.debug(publicAddress)
+    logger.debug("the gizzy id is" + gizzyId)
+    logger.debug("the public address is" + publicAddress)
     // bkcn check to make sure owner actually owns the egg
     // check if owner is eligible for promo gizzy
     try{
         user = await UserSchema.findOne({publicAddress: res.locals.publicAddress})
+        logger.debug("amount of gizzy calling direcctly" + amountOfGizzy(publicAddress))
         amount = await amountOfGizzy(publicAddress)
-        logger.debug(user)
-        logger.debug(amount)
-        if (amount >= 2 && user?.earlyAdopter != true){
+        logger.debug("the user is" + user)
+        logger.debug("the total amount is" + amount)
+        logger.debug("the early adopter bool is" + user.earlyAdopter)
+        if (amount >= 2 && user.earlyAdopter != true){
             logger.debug("entered if statement: user is supposed to get promo gizzy")
             user.earlyAdopter = true;
             await user.save();

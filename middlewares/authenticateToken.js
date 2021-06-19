@@ -3,17 +3,20 @@ const UserSchema = require('../models/User');
 
 // incomplete middleware to get the user
 async function authenticateToken(req, res, next) {
-  console.log(JSON.stringify(req.headers));
+  logger.debug(JSON.stringify(req.headers));
   let bearer = req.headers.authorization;
   if (bearer == null) {
+    logger.debug("header token is null")
     res.publicAddress = null;
     next();
   }
 
   bearer = bearer.split(' ')[1];
+  logger.debug(bearer)
 
   UserSchema.findOne({ bearerToken: bearer }).then((user) => {
     if (user == null) {
+      logger.debug("user is null")
       // set user id on req to null
       res.publicAddress = null;
       next();
