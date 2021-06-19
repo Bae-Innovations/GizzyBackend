@@ -48,7 +48,7 @@ app.use('/gizzy', require('./routes/gizzy'));
 
 // requires admin access
 app.use('/minting', require('./routes/minting'));
-app.use('/admin', require('./routes/admin'));
+//app.use('/admin', require('./routes/admin'));
 // app.use('/collection', require('./routes/collection'));
 
 // app.get('/delete', (async (req, res) => {
