@@ -39,7 +39,7 @@ const addPromoGizzy = async (owner_addr) => {
                 let gizzyId = receipt.events.Birth.returnValues.gizzyId
                 newGizzy = await addGizzy(
                     gizzyId=gizzyId,
-                    gizzyName="GIZZY#"+gizzyId.toString(),
+                    gizzyName="RARE GIZZY",
                     ownedBy=owner_addr,
                     gizzyImage='https://ipfs.io/ipfs/QmQkQBnewjrFox48QEgKJHW6DLtmk4XiZ2Hg5FrtsY4VAw',
                     gizzyStatus="unbreedable",
